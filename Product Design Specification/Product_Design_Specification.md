@@ -1,6 +1,5 @@
 # Team 2 Dice Roller - Product Design Specification
-### Group Members:  Stephen Short(steshort@pdx.edu), Michael Weston(miweston@pdx.edu), 
-###                 Drew Seidel(dseidel@pdx.edu), Braden Harwood(bharwood@pdx.edu)
+### Group Members:  Stephen Short(steshort@pdx.edu), Michael Weston(miweston@pdx.edu), Drew Seidel(dseidel@pdx.edu), Braden Harwood(bharwood@pdx.edu)
 ### Date: 10/21/2021, Version: 1.0
 
 
