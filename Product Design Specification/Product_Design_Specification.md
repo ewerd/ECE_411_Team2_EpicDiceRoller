@@ -1,5 +1,6 @@
 # Team 2 Dice Roller - Product Design Specification
-### Group Members: Stephen Short(steshort@pdx.edu), Michael Weston(miweston@pdx.edu), Drew Seidel(dseidel@pdx.edu), Braden Harwood(bharwood@pdx.edu)
+### Group Members:  Stephen Short(steshort@pdx.edu), Michael Weston(miweston@pdx.edu), 
+###                 Drew Seidel(dseidel@pdx.edu), Braden Harwood(bharwood@pdx.edu)
 ### Date: 10/21/2021, Version: 1.0
 
 
@@ -50,6 +51,7 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 
 
 ![Level 1 Block Diagram](https://github.com/ewerd/ECE_411_Team2_EpicDiceRoller/blob/main/Product%20Design%20Specification/L1_BlockDiag.drawio.png?raw=true)
+
 Figure 1. Level 1 Block Diagram
 
 ## Design Specification
