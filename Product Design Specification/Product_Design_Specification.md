@@ -20,29 +20,29 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 
 ## Requirements
 
--Must be able to simulate up to nine dice rolling at once
+- Must be able to simulate up to nine dice rolling at once
 
--Must be able to roll the commonly used dice sizes (d4, d6, d8, d10, d20, d100)
+- Must be able to roll the commonly used dice sizes (d4, d6, d8, d10, d20, d100)
 
--Must display the total of all dice after a roll on a screen
+- Must display the total of all dice after a roll on a screen
 
--Must preview the number and types of dice that will be rolled to the user
+- Must preview the number and types of dice that will be rolled to the user
 
--Must allow the user to dynamically set the number and type of dice to be rolled for each roll
+- Must allow the user to dynamically set the number and type of dice to be rolled for each roll
 
--Must be powered from a battery
+- Must be powered from a battery
 
--Should be able to be powered from the In-Circuit Serial Programmer (ICSP) or battery
+- Should be able to be powered from the In-Circuit Serial Programmer (ICSP) or battery
 
--Should provide user with three different ways to roll dice, e.g., button, shaking motion
+- Should provide user with three different ways to roll dice, e.g., button, shaking motion
 
--May provide user with the individual result of each dice after a roll
+- May provide user with the individual result of each dice after a roll
 
--May allow the user to roll ‘fudge’ dice 
+- May allow the user to roll ‘fudge’ dice 
 
--May display previous rolls.
+- May display previous rolls.
 
--May have an enclosure.
+- May have an enclosure.
 
 
 
@@ -54,27 +54,27 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 
 ## Design Specification
 
--Will use an ATmega328P
+- Will use an ATmega328P
 
--Will use an Arduino bootloader
+- Will use an Arduino bootloader
 
--Will be programmed from the Arduino IDE via ICSP
+- Will be programmed from the Arduino IDE via ICSP
 
--Will use a 4 digit 7 segment display or a 2x16 LCD
+- Will use a 4 digit 7 segment display or a 2x16 LCD
 
--If an LCD is used, it will utilize a serial protocol to communicate in order to conserve GPIO pins on the CPU
+- If an LCD is used, it will utilize a serial protocol to communicate in order to conserve GPIO pins on the CPU
 
--Will use no more than four pushbuttons for user input
+- Will use no more than four pushbuttons for user input
 
--Will use a rotary switch for user input
+- Will use a rotary switch for user input
 
--May use one or two tilt switches for user input to detect shaking
+- May use one or two tilt switches for user input to detect shaking
 
--Power selectively drawn from ICSP Vcc (primary) and a 9VDC battery (alternate)
+- Power selectively drawn from ICSP Vcc (primary) and a 9VDC battery (alternate)
 
--Battery will have a voltage regulator to pull input voltage down to 5V
+- Battery will have a voltage regulator to pull input voltage down to 5V
 
--Will have an on/off switch to secure power to the device and disconnect the battery to preserve power.
+- Will have an on/off switch to secure power to the device and disconnect the battery to preserve power.
 
--Will not reverse power the ICSP Vcc pin
+- Will not reverse power the ICSP Vcc pin
 
