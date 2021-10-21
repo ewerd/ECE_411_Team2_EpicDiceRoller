@@ -48,10 +48,8 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 
 ## System Architecture
 
-
-![Level 1 Block Diagram](https://github.com/ewerd/ECE_411_Team2_EpicDiceRoller/blob/main/Product%20Design%20Specification/L1_BlockDiag.drawio.png?raw=true)
-
 Figure 1. Level 1 Block Diagram
+![Level 1 Block Diagram](https://github.com/ewerd/ECE_411_Team2_EpicDiceRoller/blob/main/Product%20Design%20Specification/L1_BlockDiag.drawio.png?raw=true)
 
 ## Design Specification
 
