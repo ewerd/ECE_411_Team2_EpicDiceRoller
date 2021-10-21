@@ -49,7 +49,7 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 ## System Architecture
 
 
-![](L1_BlockDiag.drawio.png)
+![Level 1 Block Diagram](L1_BlockDiag.drawio.png)
 
 
 ## Design Specification
