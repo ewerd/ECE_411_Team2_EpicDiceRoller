@@ -54,6 +54,10 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 
 ## Design Specification
 
+- Will be primarily mounted on a 2-layer PCB
+
+- At least 10% of components will be surface mounted using hand or reflow solder
+
 - Will use an ATmega328P
 
 - Will use an Arduino bootloader
