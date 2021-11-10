@@ -63,10 +63,7 @@ Wire Wire Line
 	5550 3400 5250 3400
 Wire Wire Line
 	4500 3400 4500 3800
-Wire Wire Line
-	4500 3400 4150 3400
-Connection ~ 4500 3400
-Text GLabel 4150 3400 0    50   Input ~ 0
+Text GLabel 3950 3400 0    50   Input ~ 0
 BATT
 $Comp
 L Device:R R1
@@ -234,9 +231,62 @@ Wire Wire Line
 	6350 4750 6200 4750
 Wire Wire Line
 	6200 4750 6200 4800
-Text GLabel 8150 3800 2    50   Input ~ 0
+Text GLabel 8800 3550 2    50   Input ~ 0
 Vcc
+$Comp
+L Switch:SW_SPST SW1
+U 1 1 618B42B0
+P 4250 3400
+F 0 "SW1" H 4250 3635 50  0000 C CNN
+F 1 "SW_SPST" H 4250 3544 50  0000 C CNN
+F 2 "" H 4250 3400 50  0001 C CNN
+F 3 "~" H 4250 3400 50  0001 C CNN
+	1    4250 3400
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
-	7900 3800 8150 3800
+	3950 3400 4050 3400
+Wire Wire Line
+	4450 3400 4500 3400
+Connection ~ 4500 3400
+$Comp
+L Device:Jumper_NC_Dual JP1
+U 1 1 618B7794
+P 8100 3800
+F 0 "JP1" V 8054 3902 50  0000 L CNN
+F 1 "Jumper_NC_Dual" V 8145 3902 50  0000 L CNN
+F 2 "" H 8100 3800 50  0001 C CNN
+F 3 "~" H 8100 3800 50  0001 C CNN
+	1    8100 3800
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 618B94E7
+P 8100 4300
+F 0 "R3" H 8170 4346 50  0000 L CNN
+F 1 "150" H 8170 4255 50  0000 L CNN
+F 2 "" V 8030 4300 50  0001 C CNN
+F 3 "~" H 8100 4300 50  0001 C CNN
+	1    8100 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 618BA902
+P 8100 4450
+F 0 "#PWR?" H 8100 4200 50  0001 C CNN
+F 1 "GND" H 8105 4277 50  0000 C CNN
+F 2 "" H 8100 4450 50  0001 C CNN
+F 3 "" H 8100 4450 50  0001 C CNN
+	1    8100 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 3800 8000 3800
 Connection ~ 7900 3800
+Wire Wire Line
+	8100 3550 8800 3550
+Wire Wire Line
+	8100 4050 8100 4150
 $EndSCHEMATC
