@@ -1,0 +1,130 @@
+Circuit: * C:\Users\ewerd\Desktop\411\Subsystems\Power Supply\Schematics\DiceRoller_PS.asc
+
+.OP point found by inspection.
+.step rload=1000
+Changing Tseed to 1e-008
+Changing Tseed to 1e-010
+Changing Tseed to 1e-007
+Changing Tseed to 1e-011
+Changing Tseed to 1e-006
+Changing Tseed to 1e-012
+Changing Tseed to 1e-005
+Changing Tseed to 1e-013
+.step rload=11000
+.step rload=21000
+.step rload=31000
+.step rload=41000
+.step rload=51000
+.step rload=61000
+.step rload=71000
+.step rload=81000
+.step rload=91000
+.step rload=101000
+.step rload=111000
+.step rload=121000
+.step rload=131000
+.step rload=141000
+.step rload=151000
+.step rload=161000
+.step rload=171000
+.step rload=181000
+.step rload=191000
+.step rload=201000
+.step rload=211000
+.step rload=221000
+.step rload=231000
+.step rload=241000
+.step rload=251000
+.step rload=261000
+.step rload=271000
+.step rload=281000
+.step rload=291000
+.step rload=301000
+.step rload=311000
+.step rload=321000
+.step rload=331000
+.step rload=341000
+.step rload=351000
+.step rload=361000
+.step rload=371000
+.step rload=381000
+.step rload=391000
+.step rload=401000
+.step rload=411000
+.step rload=421000
+.step rload=431000
+.step rload=441000
+.step rload=451000
+.step rload=461000
+.step rload=471000
+.step rload=481000
+.step rload=491000
+.step rload=501000
+.step rload=511000
+.step rload=521000
+.step rload=531000
+.step rload=541000
+.step rload=551000
+.step rload=561000
+.step rload=571000
+.step rload=581000
+.step rload=591000
+.step rload=601000
+.step rload=611000
+.step rload=621000
+.step rload=631000
+.step rload=641000
+.step rload=651000
+.step rload=661000
+.step rload=671000
+.step rload=681000
+.step rload=691000
+.step rload=701000
+.step rload=711000
+.step rload=721000
+.step rload=731000
+.step rload=741000
+.step rload=751000
+.step rload=761000
+.step rload=771000
+.step rload=781000
+.step rload=791000
+.step rload=801000
+.step rload=811000
+.step rload=821000
+.step rload=831000
+.step rload=841000
+.step rload=851000
+.step rload=861000
+.step rload=871000
+.step rload=881000
+.step rload=891000
+.step rload=901000
+.step rload=911000
+.step rload=921000
+.step rload=931000
+.step rload=941000
+.step rload=951000
+.step rload=961000
+.step rload=971000
+.step rload=981000
+.step rload=991000
+.step rload=1e+006
+
+Date: Thu Nov 04 22:27:59 2021
+Total elapsed time: 26.336 seconds.
+
+tnom = 27
+temp = 27
+method = modified trap
+totiter = 61669
+traniter = 61669
+tranpoints = 17027
+accept = 12325
+rejected = 4694
+matrix size = 13
+fillins = 18
+solver = Normal
+Matrix Compiler1: 1.72 KB object code size  0.2/0.1/[0.1]
+Matrix Compiler2: 1.33 KB object code size  0.1/0.1/[0.1]
+
