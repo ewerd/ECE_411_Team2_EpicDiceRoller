@@ -1005,7 +1005,7 @@
         (circle (center -3.81 0) (radius 0.254) (stroke (width 0))           (stroke (width 0) (type default) (color 0 0 0 0))
           (fill (type outline))
         )
-        (arc (start -0.381 -2.794) (mid 2.3622 -0.0508) (end -0.381 2.667)
+        (arc (start -0.381 -2.794) (mid 2.3622 -0.0635) (end -0.381 2.667)
           (stroke (width 0.254) (type default) (color 0 0 0 0))
           (fill (type none))
         )
@@ -1994,7 +1994,6 @@
       )
     )
   )
-
 
   (junction (at 31.75 156.21) (diameter 0) (color 0 0 0 0))
   (junction (at 35.56 85.09) (diameter 0) (color 0 0 0 0))
@@ -4484,7 +4483,7 @@
     (property "Value" "10k" (id 1) (at 160.02 88.8999 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (id 2) (at 155.702 87.63 90)
+    (property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (id 2) (at 155.702 87.63 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 157.48 87.63 0)
@@ -4522,7 +4521,7 @@
     (property "Value" "10k" (id 1) (at 181.61 88.8999 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (id 2) (at 177.292 87.63 90)
+    (property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (id 2) (at 177.292 87.63 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 179.07 87.63 0)
@@ -5010,7 +5009,7 @@
     (uuid daa876e5-5262-45eb-8eaa-bc6937395761)
     (property "Reference" "RV1" (id 0) (at 68.58 194.31 90))
     (property "Value" "5k" (id 1) (at 68.58 196.85 90))
-    (property "Footprint" "" (id 2) (at 68.58 190.5 0)
+    (property "Footprint" "Library:TRIM_TC33X-2-502E" (id 2) (at 68.58 190.5 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 68.58 190.5 0)
@@ -5026,7 +5025,7 @@
     (uuid b0910a92-fb93-4c51-a965-1ce77fd5959f)
     (property "Reference" "RV2" (id 0) (at 109.22 157.48 90))
     (property "Value" "5k" (id 1) (at 109.22 160.02 90))
-    (property "Footprint" "" (id 2) (at 109.22 153.67 0)
+    (property "Footprint" "Library:TRIM_TC33X-2-502E" (id 2) (at 109.22 153.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 109.22 153.67 0)
@@ -5060,8 +5059,8 @@
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 0202e76d-ed31-4c5e-be5c-d15779b91b8b)
     (property "Reference" "SW1" (id 0) (at 22.86 116.84 0))
-    (property "Value" "SW_SPDT" (id 1) (at 22.86 119.38 0))
-    (property "Footprint" "" (id 2) (at 22.86 124.46 0)
+    (property "Value" "SW_Toggle_SPDT" (id 1) (at 22.86 119.38 0))
+    (property "Footprint" "Library:GoldSun_MTS103_Mini_Toggle_Switch" (id 2) (at 22.86 124.46 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 22.86 124.46 0)
@@ -5081,7 +5080,7 @@
     (property "Value" "Jumper_3_Open" (id 1) (at 157.48 130.8099 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (id 2) (at 154.94 129.54 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" (id 2) (at 154.94 129.54 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 154.94 129.54 0)
@@ -5101,7 +5100,7 @@
     (property "Value" "Jumper_3_Open" (id 1) (at 157.48 167.6399 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (id 2) (at 154.94 166.37 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" (id 2) (at 154.94 166.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 154.94 166.37 0)
@@ -5117,7 +5116,7 @@
     (uuid 08460420-b30b-45a0-968d-ea36b360168a)
     (property "Reference" "Q1" (id 0) (at 168.91 95.25 90))
     (property "Value" "BSS138" (id 1) (at 168.91 97.79 90))
-    (property "Footprint" "Package_TO_SOT_SMD:SOT-23" (id 2) (at 167.005 93.98 0)
+    (property "Footprint" "Package_TO_SOT_SMD:SOT-323_SC-70_Handsoldering" (id 2) (at 167.005 93.98 0)
       (effects (font (size 1.27 1.27) italic) (justify left) hide)
     )
     (property "Datasheet" "https://www.onsemi.com/pub/Collateral/BSS138-D.PDF" (id 3) (at 168.91 88.9 0)
@@ -5152,7 +5151,7 @@
     (uuid a22f0e59-c995-4a77-b01f-895393d42f53)
     (property "Reference" "J3" (id 0) (at 128.2065 76.2 0))
     (property "Value" "Barrel_Jack" (id 1) (at 128.2065 78.74 0))
-    (property "Footprint" "" (id 2) (at 128.27 86.106 0)
+    (property "Footprint" "Library:BarrelJack_CUI_PJ-037A_Horizontal" (id 2) (at 128.27 86.106 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 128.27 86.106 0)
@@ -5629,13 +5628,13 @@
       (reference "J2") (unit 1) (value "Conn_01x16") (footprint "Connector_PinSocket_2.54mm:PinSocket_1x16_P2.54mm_Vertical")
     )
     (path "/a22f0e59-c995-4a77-b01f-895393d42f53"
-      (reference "J3") (unit 1) (value "Barrel_Jack") (footprint "")
+      (reference "J3") (unit 1) (value "Barrel_Jack") (footprint "Library:BarrelJack_CUI_PJ-037A_Horizontal")
     )
     (path "/f2ed617e-7a79-41d5-a780-4e2949ba9cf7"
-      (reference "JP1") (unit 1) (value "Jumper_3_Open") (footprint "")
+      (reference "JP1") (unit 1) (value "Jumper_3_Open") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical")
     )
     (path "/247e2d19-36ad-4a30-8472-65ffcbbb520f"
-      (reference "JP2") (unit 1) (value "Jumper_3_Open") (footprint "")
+      (reference "JP2") (unit 1) (value "Jumper_3_Open") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical")
     )
     (path "/efd78667-ad9c-4abe-95be-41cfe7b3f9a2"
       (reference "L1") (unit 1) (value "100u") (footprint "")
@@ -5644,7 +5643,7 @@
       (reference "L2") (unit 1) (value "100u") (footprint "")
     )
     (path "/08460420-b30b-45a0-968d-ea36b360168a"
-      (reference "Q1") (unit 1) (value "BSS138") (footprint "Package_TO_SOT_SMD:SOT-23")
+      (reference "Q1") (unit 1) (value "BSS138") (footprint "Package_TO_SOT_SMD:SOT-323_SC-70_Handsoldering")
     )
     (path "/e747d653-0eaf-433e-a919-597f7e917a16"
       (reference "R1") (unit 1) (value "10k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
@@ -5686,13 +5685,13 @@
       (reference "R13") (unit 1) (value "150") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/a2c9735e-4a2d-405c-869d-3d050fdc7cf6"
-      (reference "R14") (unit 1) (value "10k") (footprint "")
+      (reference "R14") (unit 1) (value "10k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/b50c7506-28c1-4c3f-923a-75c412ae6bbe"
       (reference "R15") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/9c3cb9cb-0b23-44fa-8fdb-b9358cbf94e8"
-      (reference "R16") (unit 1) (value "10k") (footprint "")
+      (reference "R16") (unit 1) (value "10k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/8e5e8a11-f6ba-43f3-8d91-5e7a896ea9fc"
       (reference "R17") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
@@ -5707,13 +5706,13 @@
       (reference "R20") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/daa876e5-5262-45eb-8eaa-bc6937395761"
-      (reference "RV1") (unit 1) (value "5k") (footprint "")
+      (reference "RV1") (unit 1) (value "5k") (footprint "Library:TRIM_TC33X-2-502E")
     )
     (path "/b0910a92-fb93-4c51-a965-1ce77fd5959f"
-      (reference "RV2") (unit 1) (value "5k") (footprint "")
+      (reference "RV2") (unit 1) (value "5k") (footprint "Library:TRIM_TC33X-2-502E")
     )
     (path "/0202e76d-ed31-4c5e-be5c-d15779b91b8b"
-      (reference "SW1") (unit 1) (value "SW_SPDT") (footprint "")
+      (reference "SW1") (unit 1) (value "SW_Toggle_SPDT") (footprint "Library:GoldSun_MTS103_Mini_Toggle_Switch")
     )
     (path "/a94b1b9e-64b4-4337-907b-28f328893b5b"
       (reference "SW2") (unit 1) (value "Tilt_Switch") (footprint "")
