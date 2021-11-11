@@ -4414,7 +4414,7 @@
     (property "Reference" "R7" (id 0) (at 82.55 177.7999 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1k" (id 1) (at 82.55 180.3399 0)
+    (property "Value" "68" (id 1) (at 82.55 180.3399 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (id 2) (at 78.232 179.07 90)
@@ -4467,7 +4467,7 @@
     (property "Reference" "R10" (id 0) (at 123.19 140.9699 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "1k" (id 1) (at 123.19 143.5099 0)
+    (property "Value" "120" (id 1) (at 123.19 143.5099 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (id 2) (at 118.872 142.24 90)
@@ -4664,7 +4664,7 @@
     (property "Reference" "D1" (id 0) (at 82.55 168.9099 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "BZX55C5XX" (id 1) (at 82.55 171.4499 90)
+    (property "Value" "BZX55C5V1" (id 1) (at 82.55 171.4499 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal" (id 2) (at 80.01 170.18 0)
@@ -4683,7 +4683,7 @@
     (property "Reference" "D2" (id 0) (at 123.19 132.0799 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "BZX55C3XX" (id 1) (at 123.19 134.6199 90)
+    (property "Value" "BZX55C3V9" (id 1) (at 123.19 134.6199 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal" (id 2) (at 120.65 133.35 0)
@@ -5675,10 +5675,10 @@
       (reference "C15") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder")
     )
     (path "/d332a016-8edf-4c9a-8ea4-9d52128a65fe"
-      (reference "D1") (unit 1) (value "BZX55C5XX") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+      (reference "D1") (unit 1) (value "BZX55C5V1") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
     )
     (path "/c742c256-195d-43d8-87fd-b46ec7a89997"
-      (reference "D2") (unit 1) (value "BZX55C3XX") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
+      (reference "D2") (unit 1) (value "BZX55C3V9") (footprint "Diode_THT:D_DO-35_SOD27_P7.62mm_Horizontal")
     )
     (path "/97500fde-4c78-42dd-ab07-3c6ad623f25a"
       (reference "J1") (unit 1) (value "Conn_02x03_Odd_Even") (footprint "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical")
@@ -5723,7 +5723,7 @@
       (reference "R6") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/7f356495-e216-4c39-8078-c83dcfbe350e"
-      (reference "R7") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
+      (reference "R7") (unit 1) (value "68") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/a36990b2-b2b8-49f9-8a51-8db03ada13fd"
       (reference "R8") (unit 1) (value "0.33") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
@@ -5732,7 +5732,7 @@
       (reference "R9") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/7f9781a6-0677-4bee-af04-a4e8cd60f89d"
-      (reference "R10") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
+      (reference "R10") (unit 1) (value "120") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
     )
     (path "/128c3cc7-55c7-4ba1-8765-077eb017a110"
       (reference "R11") (unit 1) (value "1k") (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder")
