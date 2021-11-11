@@ -3,10 +3,8 @@
     "active_layer": 0,
     "active_layer_preset": "",
     "auto_track_width": true,
-    "hidden_nets": [
-      "GND"
-    ],
-    "high_contrast_mode": 0,
+    "hidden_nets": [],
+    "high_contrast_mode": 1,
     "net_color_mode": 1,
     "opacity": {
       "pads": 1.0,
@@ -68,7 +66,7 @@
     "zone_display_mode": 0
   },
   "meta": {
-    "filename": "EpicDiceRoller.kicad_prl",
+    "filename": "Team2EpicDiceRoller.kicad_prl",
     "version": 3
   },
   "project": {
