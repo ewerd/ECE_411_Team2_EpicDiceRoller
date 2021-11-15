@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "Library")(type "KiCad")(uri "${KIPRJMOD}/Library.pretty")(options "")(descr ""))
+  (lib (name "TC33X-2-502E")(type "KiCad")(uri "D:/Users/Braden/Downloads/TC33X-2-502E.pretty")(options "")(descr ""))
+)
