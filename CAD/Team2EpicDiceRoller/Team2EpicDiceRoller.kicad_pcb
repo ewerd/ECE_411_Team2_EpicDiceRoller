@@ -3026,7 +3026,7 @@
 
   (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (layer "B.Cu")
     (tedit 5F68FEEE) (tstamp 88f73cc1-94a0-41ca-945e-917842a42836)
-    (at 101.5 120.775)
+    (at 101.575 120.4)
     (descr "Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
     (tags "resistor handsolder")
     (property "Sheetfile" "Team2EpicDiceRoller.kicad_sch")
@@ -3446,7 +3446,7 @@
 
   (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (layer "B.Cu")
     (tedit 5F68FEEE) (tstamp dc7de5ca-c4f5-4a38-9864-b2f30679c815)
-    (at 101.5 111.5)
+    (at 101.575 110.925)
     (descr "Resistor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
     (tags "resistor handsolder")
     (property "Sheetfile" "Team2EpicDiceRoller.kicad_sch")
