@@ -32,8 +32,6 @@ Our price will depend on our bill of materials needed to satisfy all of our requ
 
 - Must be powered from a battery
 
-- Should be able to be powered from the In-Circuit Serial Programmer (ICSP) or battery
-
 - Should provide user with three different ways to roll dice, e.g., button, shaking motion
 
 - May provide user with the individual result of each dice after a roll
@@ -74,11 +72,7 @@ Figure 1. Level 1 Block Diagram
 
 - May use one or two tilt switches for user input to detect shaking
 
-- Power selectively drawn from ICSP Vcc (primary) and a 9VDC battery (alternate)
-
 - Battery will have a voltage regulator to pull input voltage down to 5V
 
 - Will have an on/off switch to secure power to the device and disconnect the battery to preserve power.
-
-- Will not reverse power the ICSP Vcc pin
 
