@@ -5311,7 +5311,7 @@
     (property "Value" "470u" (id 1) (at 101.6 171.4499 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm" (id 2) (at 98.7552 173.99 0)
+    (property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" (id 2) (at 98.7552 173.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 97.79 170.18 0)
@@ -5349,7 +5349,7 @@
     (property "Value" "470u" (id 1) (at 132.08 134.6199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm" (id 2) (at 129.2352 137.16 0)
+    (property "Footprint" "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" (id 2) (at 129.2352 137.16 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 128.27 133.35 0)
@@ -6199,13 +6199,13 @@
       (reference "C5") (unit 1) (value "470p") (footprint "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder")
     )
     (path "/5742b5fd-3f8d-4d64-bb1a-04db38f14d1d"
-      (reference "C6") (unit 1) (value "470u") (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
+      (reference "C6") (unit 1) (value "470u") (footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
     )
     (path "/e430aba8-016f-47fe-86d9-c150d7f518cd"
       (reference "C7") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder")
     )
     (path "/9c48a684-ed08-4a42-8221-2c4c4eaf77cd"
-      (reference "C8") (unit 1) (value "470u") (footprint "Capacitor_THT:CP_Radial_D5.0mm_P2.50mm")
+      (reference "C8") (unit 1) (value "470u") (footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm")
     )
     (path "/7e5013ac-be8e-44d0-99da-910d44977e25"
       (reference "C9") (unit 1) (value "30p") (footprint "Capacitor_SMD:C_1206_3216Metric_Pad1.33x1.80mm_HandSolder")
