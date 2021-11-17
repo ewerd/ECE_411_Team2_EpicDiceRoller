@@ -3200,6 +3200,10 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 47a38cac-bde4-46aa-be92-d96a7736f32a)
   )
+  (text "Use internal pullups" (at 21.59 17.78 0)
+    (effects (font (size 1.27 1.27)) (justify left bottom))
+    (uuid 2f6bdd83-75c7-4a2b-84a3-5e0f4cb8eed0)
+  )
   (text "ICSP - Sparkfun Pocket AVR Programmer\nProvides +5V"
     (at 22.86 52.07 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
