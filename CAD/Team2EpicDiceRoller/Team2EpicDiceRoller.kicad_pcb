@@ -2345,7 +2345,7 @@
     (fp_line (start 1.27 3.81) (end -1.27 3.81) (layer "F.Fab") (width 0.1) (tstamp bbe34fec-7b78-4ca3-a0dd-44aa861b9b2d))
     (fp_line (start -0.635 -1.27) (end 1.27 -1.27) (layer "F.Fab") (width 0.1) (tstamp e382a4a0-7c10-4311-92f0-4bea8298054e))
     (pad "1" thru_hole rect locked (at 0 0 90) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask)
-      (net 27 "IO9_PB1") (pinfunction "1") (pintype "passive") (tstamp afdaaf53-6013-46a9-aa7f-c4669d177e5b))
+      (net 38 "IO7_PD7") (pinfunction "1") (pintype "passive") (tstamp afdaaf53-6013-46a9-aa7f-c4669d177e5b))
     (pad "2" thru_hole oval locked (at 0 2.54 90) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask)
       (net 1 "GND") (pinfunction "2") (pintype "passive") (tstamp dc4fb989-cd2e-40fb-8ab0-a2f8df1ba009))
     (model "${KICAD6_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.wrl"
@@ -2590,11 +2590,11 @@
     (fp_line (start -6.4 -3.4) (end -6.4 3.4) (layer "F.Fab") (width 0.12) (tstamp f1b57c12-e5cc-4188-8265-8ea391c56609))
     (fp_line (start 6.4 -3.4) (end 6.4 3.4) (layer "F.Fab") (width 0.12) (tstamp f5251c68-ecd6-41eb-a5c5-5f3f19b10e11))
     (pad "1" thru_hole rect (at -4.7 0 270) (size 2 2.6) (drill oval 0.95 2.25) (layers *.Cu *.Mask)
-      (net 29 "AD0_PC0") (pinfunction "A") (pintype "passive") (tstamp cc94f781-0ce0-4f69-be2b-dfc30327a030))
+      (net 42 "AD2_PC2") (pinfunction "A") (pintype "passive") (tstamp cc94f781-0ce0-4f69-be2b-dfc30327a030))
     (pad "2" thru_hole rect (at 0 0 270) (size 2 2.6) (drill oval 0.95 2.25) (layers *.Cu *.Mask)
       (net 1 "GND") (pinfunction "B") (pintype "passive") (tstamp 906c82be-f376-444f-98f7-d025c21e73ec))
     (pad "3" thru_hole rect (at 4.7 0 270) (size 2 2.6) (drill oval 0.95 2.25) (layers *.Cu *.Mask)
-      (net 28 "AD1_PC1") (pinfunction "C") (pintype "passive") (tstamp 78199b73-80d1-4c6d-831f-be811ed6c44d))
+      (net 43 "AD3_PC3") (pinfunction "C") (pintype "passive") (tstamp 78199b73-80d1-4c6d-831f-be811ed6c44d))
   )
 
   (footprint "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder" (layer "B.Cu")
@@ -2883,7 +2883,7 @@
     (pad "1" smd roundrect locked (at -1.55 0 180) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
       (net 4 "VCC") (pintype "passive") (tstamp 883f5915-6be5-4e3e-9166-b85c923857a6))
     (pad "2" smd roundrect locked (at 1.55 0 180) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
-      (net 27 "IO9_PB1") (pintype "passive") (tstamp 43e6113a-81da-41ef-baad-016f8d57df11))
+      (net 38 "IO7_PD7") (pintype "passive") (tstamp 43e6113a-81da-41ef-baad-016f8d57df11))
     (model "${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_1206_3216Metric.wrl"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
@@ -3014,7 +3014,7 @@
     (pad "2" smd rect locked (at -1.33 -0.65 90) (size 0.45 1.5) (layers "B.Cu" "B.Paste" "B.Mask")
       (net 51 "LCD_RX") (pinfunction "S") (pintype "passive") (tstamp 3098d539-a02d-4450-979c-4b9aa5b05d97))
     (pad "3" smd rect locked (at 1.33 0 90) (size 0.45 1.5) (layers "B.Cu" "B.Paste" "B.Mask")
-      (net 16 "IO8_PB0") (pinfunction "D") (pintype "passive") (tstamp d4ecb739-ece0-4966-8cd8-4c0a0eaf0e9e))
+      (net 27 "IO9_PB1") (pinfunction "D") (pintype "passive") (tstamp d4ecb739-ece0-4966-8cd8-4c0a0eaf0e9e))
     (model "${KICAD6_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-323_SC-70.wrl"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
@@ -3098,7 +3098,7 @@
     (pad "1" smd roundrect locked (at -1.55 0 180) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
       (net 4 "VCC") (pintype "passive") (tstamp 754d3859-0fd8-4788-b896-f1927b286c5e))
     (pad "2" smd roundrect locked (at 1.55 0 180) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
-      (net 16 "IO8_PB0") (pintype "passive") (tstamp 32ea47cf-7b19-4ac1-a19e-ca728f977b73))
+      (net 27 "IO9_PB1") (pintype "passive") (tstamp 32ea47cf-7b19-4ac1-a19e-ca728f977b73))
     (model "${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_1206_3216Metric.wrl"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
@@ -3266,7 +3266,7 @@
     (pad "1" smd roundrect locked (at -1.55 0) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
       (net 4 "VCC") (pintype "passive") (tstamp 9df40bf2-2b02-4a4a-94ad-f5e3483c035c))
     (pad "2" smd roundrect locked (at 1.55 0) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
-      (net 28 "AD1_PC1") (pintype "passive") (tstamp 9a023a13-8090-474c-a9fb-6447bcf1e72d))
+      (net 43 "AD3_PC3") (pintype "passive") (tstamp 9a023a13-8090-474c-a9fb-6447bcf1e72d))
     (model "${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_1206_3216Metric.wrl"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
@@ -3728,7 +3728,7 @@
     (pad "1" smd roundrect locked (at -1.55 0) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
       (net 4 "VCC") (pintype "passive") (tstamp f585a398-4bb3-4d91-9057-921d17eeece0))
     (pad "2" smd roundrect locked (at 1.55 0) (size 1.3 1.75) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.192308)
-      (net 29 "AD0_PC0") (pintype "passive") (tstamp b2dd6a4c-8940-4652-aedd-4b8305620196))
+      (net 42 "AD2_PC2") (pintype "passive") (tstamp b2dd6a4c-8940-4652-aedd-4b8305620196))
     (model "${KICAD6_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_1206_3216Metric.wrl"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
@@ -3865,7 +3865,7 @@
     (pad "5" smd roundrect locked (at -2.475 -1.27 270) (size 1.95 0.6) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.25)
       (net 64 "/RigDebn") (pintype "input") (tstamp c208757f-ad46-4a7e-8aac-eb0a9873a6e7))
     (pad "6" smd roundrect locked (at -2.475 -2.54 270) (size 1.95 0.6) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.25)
-      (net 38 "IO7_PD7") (pintype "output") (tstamp e4e24774-b3d9-4b56-b158-0d0274fe9875))
+      (net 40 "IO10_SS_PB2") (pintype "output") (tstamp e4e24774-b3d9-4b56-b158-0d0274fe9875))
     (pad "7" smd roundrect locked (at -2.475 -3.81 270) (size 1.95 0.6) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.25)
       (net 1 "GND") (pinfunction "GND") (pintype "power_in") (tstamp bae552f1-9072-4796-a686-0bbabf3eacde))
     (pad "8" smd roundrect locked (at 2.475 -3.81 270) (size 1.95 0.6) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.25)
