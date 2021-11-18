@@ -3908,7 +3908,7 @@
   (gr_text "RESET" (at 158.625 119.125) (layer "F.SilkS") (tstamp 70ba7f18-6d72-4aa6-96f8-ce5b6a8dc139)
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (gr_text "ECE 411 - Team 2 - Epic Dice Roller v1.0" (at 142.5 61.5) (layer "F.SilkS") (tstamp 8fcd2d39-a6d9-445e-a668-afd75b7c98e4)
+  (gr_text "ECE 411 - Team 2 - Epic Dice Roller v1.0 - 11/18/2021" (at 142.5 61.5) (layer "F.SilkS") (tstamp 8fcd2d39-a6d9-445e-a668-afd75b7c98e4)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
   (gr_text "VCC 5V LOAD" (at 161.975 83.4) (layer "F.SilkS") (tstamp b29d1b04-09c3-4674-93eb-0332fcdfa750)
