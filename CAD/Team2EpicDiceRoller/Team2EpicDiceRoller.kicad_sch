@@ -2156,7 +2156,6 @@
     )
   )
 
-
   (junction (at 31.75 156.21) (diameter 0) (color 0 0 0 0))
   (junction (at 35.56 85.09) (diameter 0) (color 0 0 0 0))
   (junction (at 38.1 128.27) (diameter 0) (color 0 0 0 0))
@@ -3285,10 +3284,6 @@
   (label "LeftDebn" (at 130.81 30.48 90)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid d2707bb4-a90c-4227-9ed0-8e41838e79b1)
-  )
-  (label "VCC" (at 130.81 166.37 0)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 9b355b40-5695-45db-bc95-b97d41d3cfaa)
   )
   (label "Load_VCC" (at 154.94 173.99 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
