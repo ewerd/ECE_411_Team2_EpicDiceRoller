@@ -8,6 +8,7 @@
 #include <AltSoftSerial.h>
 #include <EnableInterrupt.h>
 #include <RotaryEncoder.h>
+#include <Entropy.h>
 
 #define NUM_POSSIBLE_DICE 9
 #define MAX_NUM_DICE 10
@@ -37,6 +38,7 @@ void encoderUpdate();
 
 // Run time Functions
 void printDice();
+void printRoll();
 
 // Counter to determine the number of interrupts triggered. Used for tweaking the tilt sensor
 volatile uint32_t anyInterruptCounter=0;
@@ -57,6 +59,8 @@ byte contrast = 2; //Lower is more contrast. 0 to 5 works for most displays.
 const int dice[NUM_POSSIBLE_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100};
 volatile int diceIndex = 7;
 volatile int numDice = 1;
+int diceRoll = 0;
+int previousDiceRoll = diceRoll;
 
 void setup() {
   Serial.begin(9600);
@@ -74,12 +78,12 @@ void setup() {
   pinMode(TOGGLEDOWN, INPUT);
 
   // Enable the interrupts for the initial state
-  enableInterrupt(LEFTMENU, leftMenuFunc, CHANGE);
-  enableInterrupt(MIDDLEMENU, middleMenuFunc, CHANGE);
-  enableInterrupt(RIGHTMENU, rightMenuFunc, CHANGE);
+  enableInterrupt(LEFTMENU, leftMenuFunc, FALLING);
+  enableInterrupt(MIDDLEMENU, middleMenuFunc, FALLING);
+  enableInterrupt(RIGHTMENU, rightMenuFunc, FALLING);
   enableInterrupt(TILTSWITCH, tiltFunc, CHANGE);
-  enableInterrupt(TOGGLEUP, toggleUpFunc, CHANGE);
-  enableInterrupt(TOGGLEDOWN, toggleDownFunc, CHANGE);
+  enableInterrupt(TOGGLEUP, toggleUpFunc, FALLING);
+  enableInterrupt(TOGGLEDOWN, toggleDownFunc, FALLING);
   
   // Rotary Encoder
   enableInterrupt(ROTARYPINA, encoderUpdate, CHANGE);
@@ -104,23 +108,89 @@ void printDice()
   char line1[16] = "      ";
   char numDice_s[5];
   char diceValue_s[5];
-  const char menuLine[17] = "Less  Last  More";
+  const char menuLine[17] = "Less  Roll  More";
   char output[32];
   if (currentState == SETUP)
   {
     disableAllInterrupts();
+    
     itoa(numDice, numDice_s, 10);
-    Serial.print("numDice_s = ");Serial.println(numDice_s);
     strcat(line1, numDice_s);
-    Serial.print("line1 = ");Serial.println(line1);
+    
     strcat(line1, "d");
-    Serial.print("line1 = ");Serial.println(line1);
+    
     itoa(dice[diceIndex],diceValue_s,10);
-    Serial.print("diceValue_s = ");Serial.println(diceValue_s);
     strcat(line1, diceValue_s);
-    Serial.print("line1 = ");Serial.println(line1);
+    
     int line1Length = strlen(line1);
-    Serial.print("line1Length = ");Serial.println(line1Length);
+    if (line1Length < 16)
+    {
+      for (unsigned int i = 0; i < 16-line1Length; i++)
+      {
+        strcat(line1, " ");
+      }
+    }
+    
+    Serial.print("line1 = ");Serial.println(line1);
+
+    strcpy(output, line1);
+    
+    Serial.print("output = ");Serial.println(output);
+    Serial.print("menuLine = ");Serial.println(menuLine);
+    strcat(output, menuLine);
+
+    OpenLCD.write('|'); //Setting character
+    OpenLCD.write('-'); //Clear display
+
+    // Print ndm dice and menu options
+    OpenLCD.print(output);
+    
+    enableAllInterrupts();
+  }
+}
+
+void rollDice()
+{
+  disableAllInterrupts();
+  
+  currentState = ROLL;
+  
+  previousDiceRoll = diceRoll;
+  diceRoll = 0;
+  for (int i = 0; i < numDice; i++) {
+    diceRoll = diceRoll + Entropy.random(1, dice[diceIndex] + 1);
+  }
+  Serial.print("diceRoll: ");Serial.println(diceRoll);
+  
+  printRoll();
+}
+
+void printRoll()
+{
+  char line1[16] = "";
+  char numDice_s[5];
+  char diceValue_s[5];
+  char rollValue_s[5];
+  const char menuLine[17] = "      Home      ";
+  char output[32];
+  if (currentState == ROLL)
+  {
+    disableAllInterrupts();
+    
+    itoa(numDice, numDice_s, 10);
+    strcat(line1, numDice_s);
+    
+    strcat(line1, "d");
+    
+    itoa(dice[diceIndex],diceValue_s,10);
+    strcat(line1, diceValue_s);
+
+    strcat(line1, " = ");
+    
+    itoa(diceRoll,rollValue_s,10);
+    strcat(line1, rollValue_s);
+    
+    int line1Length = strlen(line1);
     if (line1Length < 16)
     {
       for (unsigned int i = 0; i < 16-line1Length; i++)
@@ -217,6 +287,22 @@ void leftMenuFunc() {
 void middleMenuFunc() {
     anyInterruptCounter++;
     int buttonState = digitalRead(MIDDLEMENU);
+    if (currentState == SETUP)
+    {
+      if (buttonState == LOW)
+      {
+        currentState = ROLL;
+        rollDice();
+      }
+    }
+    else if (currentState == ROLL)
+    {
+      if (buttonState == LOW)
+      {
+        currentState = SETUP;
+        printDice();
+      }
+    }
 }
 
 void rightMenuFunc() {
@@ -239,11 +325,29 @@ void rightMenuFunc() {
 void toggleUpFunc() {
     anyInterruptCounter++;
     int switchState = digitalRead(TOGGLEUP);
+    if (currentState == SETUP)
+    {
+      if (switchState == LOW)
+      {
+        currentState = ROLL;
+        Serial.println("Toggle up triggered.");
+        rollDice();
+      }
+    }
 }
 
 void toggleDownFunc() {
     anyInterruptCounter++;
     int switchState = digitalRead(TOGGLEDOWN);
+    if (currentState == SETUP)
+    {
+      if (switchState == LOW)
+      {
+        currentState = ROLL;
+        Serial.println("Toggle up triggered.");
+        rollDice();
+      }
+    }
 }
 
 void tiltFunc() {
