@@ -9,7 +9,7 @@
 #include <EnableInterrupt.h>
 #include <RotaryEncoder.h>
 
-#define NUM_DICE 9
+#define NUM_POSSIBLE_DICE 9
 #define MAX_NUM_DICE 10
 #define MIN_NUM_DICE 1
 
@@ -54,9 +54,9 @@ state_t currentState = SETUP;
 byte contrast = 2; //Lower is more contrast. 0 to 5 works for most displays.
 
 // Global Dice Array that holds all of the values of dice that are available
-const int dice[NUM_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100};
-unsigned int diceIndex = 0;
-unsigned int numDice = 1;
+const int dice[NUM_POSSIBLE_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100};
+volatile int diceIndex = 7;
+volatile int numDice = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -101,21 +101,26 @@ void setup() {
 
 void printDice()
 {
-  
-  char line1[16] = "     ";
-  char numDice[3];
-  char diceValue[4];
-  const char menuLine[16] = "Less  Last  More";
+  char line1[16] = "      ";
+  char numDice_s[5];
+  char diceValue_s[5];
+  const char menuLine[17] = "Less  Last  More";
   char output[32];
   if (currentState == SETUP)
   {
     disableAllInterrupts();
-    itoa(numDice, diceValue, 10);
-    strcat(line1, diceValue);
+    itoa(numDice, numDice_s, 10);
+    Serial.print("numDice_s = ");Serial.println(numDice_s);
+    strcat(line1, numDice_s);
+    Serial.print("line1 = ");Serial.println(line1);
     strcat(line1, "d");
-    itoa(dice[diceIndex],diceValue,10);
-    strcat(line1, itoa(dice[diceIndex],diceValue,10));
+    Serial.print("line1 = ");Serial.println(line1);
+    itoa(dice[diceIndex],diceValue_s,10);
+    Serial.print("diceValue_s = ");Serial.println(diceValue_s);
+    strcat(line1, diceValue_s);
+    Serial.print("line1 = ");Serial.println(line1);
     int line1Length = strlen(line1);
+    Serial.print("line1Length = ");Serial.println(line1Length);
     if (line1Length < 16)
     {
       for (unsigned int i = 0; i < 16-line1Length; i++)
@@ -123,8 +128,13 @@ void printDice()
         strcat(line1, " ");
       }
     }
+    
+    Serial.print("line1 = ");Serial.println(line1);
 
     strcpy(output, line1);
+    
+    Serial.print("output = ");Serial.println(output);
+    Serial.print("menuLine = ");Serial.println(menuLine);
     strcat(output, menuLine);
 
     OpenLCD.write('|'); //Setting character
@@ -141,15 +151,35 @@ void printDice()
 // In the loop, we just check to see where the interrupt count is at. The value gets updated by
 // the interrupt routine of the tilt switch.
 void loop() {
-  delay(2000);                          // Perform the loop every second.
+  //delay(2000);                          // Perform the loop every 2 seconds.
   
-  EI_printPSTR("Consolidated interrupt count: "); Serial.println(anyInterruptCounter);
-  // Check Rotary Encoder
-  static int pos = 0;
-  int newPos = encoder.getPosition();
-  if (pos != newPos) {
-    EI_printPSTR("Position "); Serial.println(newPos);
-    pos = newPos;
+  //Serial.print("Consolidated interrupt count: "); Serial.println(anyInterruptCounter);
+  if (currentState == SETUP)
+  {
+    // Check Rotary Encoder
+    static int pos = 0;
+    int newPos = encoder.getPosition();
+    if (pos != newPos) {
+        //Serial.print("pos = ");
+        //Serial.println(pos);
+        //Serial.print("newpos = ");
+        //Serial.println(newPos);
+      if (newPos > pos) { // Increment position
+        diceIndex = (diceIndex + 1) % NUM_POSSIBLE_DICE;
+        printDice();
+      }
+      else { // Decrement position
+        if (diceIndex == 0) { // Don't go negative while decrementing, go to top of encoder
+          diceIndex = NUM_POSSIBLE_DICE - 1;
+          printDice();
+        }
+        else { // Decrement position
+          diceIndex = (diceIndex - 1) % NUM_POSSIBLE_DICE;
+          printDice();
+        }
+      }
+      pos = newPos;
+    }
   }
   /*
   OpenLCD.write('|'); //Setting character
@@ -175,9 +205,10 @@ void leftMenuFunc() {
       int buttonState = digitalRead(LEFTMENU);
       if (buttonState == LOW)
       {
-        if ((numDice > MAX_NUM_DICE) && (numDice <= MAX_NUM_DICE))
+        if ((numDice > MIN_NUM_DICE) && (numDice <= MAX_NUM_DICE))
         {
           numDice--;
+          printDice();
         }
       }
     }
@@ -199,6 +230,7 @@ void rightMenuFunc() {
         if ((numDice >= MIN_NUM_DICE) && (numDice < MAX_NUM_DICE))
         {
           numDice++;
+          printDice();
         }
       }
     }
