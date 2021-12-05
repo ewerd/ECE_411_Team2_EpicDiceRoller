@@ -73,6 +73,7 @@ bool prevMessage = false;
 bool randomMessage = false;
 bool shakeIt = false;
 bool R = false, G = false, B = false;
+bool nat20 = false, crit1 = false;
 
 void setup() {
 
@@ -211,14 +212,13 @@ void setup() {
 
   OpenLCD.write('|'); //Setting character
   OpenLCD.write('-'); //Clear display
+  delay(500);
   OpenLCD.write(254);
   OpenLCD.write(128 + 0 + 0);
   
   // Opening Message
   OpenLCD.print("EPIC DICE ROLLER  May the rolls ");
   delay(1500);
-  OpenLCD.print("EPIC DICE ROLLER                ");
-  delay(500);
   OpenLCD.print("EPIC DICE ROLLER  be with you!  ");
   delay(1500);
   // Initialize Screen
@@ -344,6 +344,12 @@ void rollDice()
         rolledDice[i] = 0;
       }
     }
+    
+    if (numDice == 1 && rolledDice[0] == 20 && dice[diceIndex] == 20)
+      nat20 = true;
+    else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
+      crit1 = true;
+      
     OpenLCD.write(254);
     OpenLCD.write(128 + 0 + 0);
     OpenLCD.write('|'); //Setting character
@@ -408,7 +414,6 @@ void printDisplay()
   char output[32] = "";
   int line1Length = 0;
   int line2Length = 0;
-  
   
   strcpy(output, line1);
   strcat(output, line2);
@@ -475,6 +480,74 @@ void loop() {
   }
   else if (pntRoll) 
   {
+    if (nat20)
+    {
+      for (int x = 0; x < 3; x++)
+      {
+      // clear screen
+      OpenLCD.write('|');
+      OpenLCD.write('-');
+      OpenLCD.print("   NATURAL 20                   ");
+      OpenLCD.write('|');
+      OpenLCD.write(128);
+      OpenLCD.write('|');
+      OpenLCD.write(187);
+      OpenLCD.write('|');
+      OpenLCD.write(188);
+      myDelay((unsigned long)500);
+      OpenLCD.write('|');
+      OpenLCD.write('-');
+      OpenLCD.print("                   NATURAL 20   ");
+      OpenLCD.write('|');
+      OpenLCD.write(128);
+      OpenLCD.write('|');
+      OpenLCD.write(158);
+      OpenLCD.write('|');
+      OpenLCD.write(217);
+      myDelay((unsigned long)500);
+      }
+      OpenLCD.write('|');
+      OpenLCD.write(Rval);
+      OpenLCD.write('|');
+      OpenLCD.write(Gval);
+      OpenLCD.write('|');
+      OpenLCD.write(Bval);
+      nat20 = false;
+    }
+    else if (crit1)
+    {
+      for (int x = 0; x < 3; x++) 
+      {
+      // clear screen
+      OpenLCD.write('|');
+      OpenLCD.write('-');
+      OpenLCD.print("   CRITICAL 1                   ");
+      OpenLCD.write('|');
+      OpenLCD.write(157);
+      OpenLCD.write('|');
+      OpenLCD.write(158);
+      OpenLCD.write('|');
+      OpenLCD.write(188);
+      myDelay((unsigned long)500);
+      OpenLCD.write('|');
+      OpenLCD.write('-');
+      OpenLCD.print("                   CRITICAL 1   ");
+      OpenLCD.write('|');
+      OpenLCD.write(157);
+      OpenLCD.write('|');
+      OpenLCD.write(158);
+      OpenLCD.write('|');
+      OpenLCD.write(200);
+      myDelay((unsigned long)500);
+      }
+      OpenLCD.write('|');
+      OpenLCD.write(Rval);
+      OpenLCD.write('|');
+      OpenLCD.write(Gval);
+      OpenLCD.write('|');
+      OpenLCD.write(Bval);
+      crit1 = false;
+    }
     printRoll();
     pntRoll = false;
   }
@@ -708,27 +781,44 @@ void tiltFunc() {
   if (canTilt)
   {
     tiltCount++;
-    if (tiltCount % 200 == 0)
+    
+    if (currentState == DISP)
     {
-      OpenLCD.write('|');
-      Rval = Entropy.random(128,157);
-      OpenLCD.write(Rval);
-      OpenLCD.write('|');
-      Gval = Entropy.random(158,187);
-      OpenLCD.write(Gval);
-      OpenLCD.write('|');
-      Bval = Entropy.random(188,217);
-      OpenLCD.write(Bval);
-      if (currentState == DISP)
+      if (tiltCount == 400)
       {
-        shakeIt = false;
+        OpenLCD.write('|');
+        Rval = Entropy.random(128,157);
+        OpenLCD.write(Rval);
+        OpenLCD.write('|');
+        Gval = Entropy.random(158,187);
+        OpenLCD.write(Gval);
+        OpenLCD.write('|');
+        Bval = Entropy.random(188,217);
+        OpenLCD.write(Bval);
         pntDisplay = true;
+        tiltCount = 0;
       }
     }
-    if (currentState == SETUP)
+    else if (currentState == SETUP)
     {
+      if (tiltCount % 150 == 0)
+      {
+        shakeIt = true;
+        OpenLCD.write('|');
+        OpenLCD.write(Entropy.random(128,157));
+        OpenLCD.write('|');
+        OpenLCD.write(Entropy.random(158,187));
+        OpenLCD.write('|');
+        OpenLCD.write(Entropy.random(188,217));
+      }
       if (tiltCount > 1000)
       {
+        OpenLCD.write('|');
+        OpenLCD.write(Rval);
+        OpenLCD.write('|');
+        OpenLCD.write(Gval);
+        OpenLCD.write('|');
+        OpenLCD.write(Bval);
         currentState = ROLL;
         tiltCount = 0;
         canTilt = false;
@@ -801,8 +891,4 @@ int setCustomChar(int val)
     return 40;
   else if (val > 24 && val < 31)
     return 41;
-}
-
-void natural20()
-{
 }
