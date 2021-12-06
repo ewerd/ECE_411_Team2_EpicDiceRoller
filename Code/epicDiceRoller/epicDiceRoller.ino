@@ -36,11 +36,18 @@ void toggleUpFunc();
 void toggleDownFunc();
 void encoderUpdate();
 
+
 // Run time Functions
 void printDice();
 void printRoll();
 void diceExplode();
 void natural20();
+void clearChar(int row, int col);
+void myDelay(unsigned long delayTime);
+int setCustomChar(int val);
+void Print(char *string);
+void Write(int val);
+
 
 // Object definitions for encoder and LCD screen
 RotaryEncoder encoder(ROTARYPINA, ROTARYPINB);
@@ -107,119 +114,124 @@ void setup() {
 //  exit(1);
   Entropy.initialize();
   //Send contrast setting
-  OpenLCD.write('|'); //Put LCD into setting mode
-  OpenLCD.write(47); //Send disable messages command
-  OpenLCD.write('|'); //Put LCD into setting mode
-  OpenLCD.write(24); //Send contrast command
-  OpenLCD.write(contrast);
-  OpenLCD.write(124); // set line width and height
-  OpenLCD.write(6);
-  OpenLCD.write(124);
-  OpenLCD.write(4);
+//  OpenLCD.write('|'); //Put LCD into setting mode
+//  OpenLCD.write(13); //Send disable messages command
+//  exit(0);
+  Write('|'); //Put LCD into setting mode
+  Write(47); //Send disable messages command
+  Write('|'); //Put LCD into setting mode
+  Write(47); //Send disable messages command
+  Write('|'); //Put LCD into setting mode
+  Write(24); //Send contrast command
+  Write(contrast);
+  Write(124); // set line width and height
+  Write(6);
+  Write(124);
+  Write(4);
   
   
   Rval = 157;
   Gval = 187;
   Bval = 217;
   // set background
-  OpenLCD.write('|'); 
-  OpenLCD.write(Rval); 
-  OpenLCD.write('|'); 
-  OpenLCD.write(Gval); 
-  OpenLCD.write('|'); 
-  OpenLCD.write(Bval); 
+  Write('|'); 
+  Write(Rval); 
+  Write('|'); 
+  Write(Gval); 
+  Write('|'); 
+  Write(Bval); 
   
 
   // Record custom characters
-  OpenLCD.write('|');
-  OpenLCD.write(27);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write(31);
-  OpenLCD.write((int)0);
+  Write('|');
+  Write(27);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write(31);
+  Write((int)0);
 
-  OpenLCD.write('|');
-  OpenLCD.write(28);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write((int)0);
+  Write('|');
+  Write(28);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write(31);
+  Write(31);
+  Write((int)0);
 
-  OpenLCD.write('|');
-  OpenLCD.write(29);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write((int)0);
+  Write('|');
+  Write(29);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write((int)0);
 
-  OpenLCD.write('|');
-  OpenLCD.write(30);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write((int) 0);
+  Write('|');
+  Write(30);
+  Write((int)0);
+  Write((int)0);
+  Write((int)0);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write((int) 0);
 
-  OpenLCD.write('|');
-  OpenLCD.write(31);
-  OpenLCD.write((int)0);
-  OpenLCD.write((int)0);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write((int) 0);
+  Write('|');
+  Write(31);
+  Write((int)0);
+  Write((int)0);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write((int) 0);
 
-  OpenLCD.write('|');
-  OpenLCD.write(32);
-  OpenLCD.write((int)0);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write((int)0);
+  Write('|');
+  Write(32);
+  Write((int)0);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write((int)0);
   
-  OpenLCD.write('|');
-  OpenLCD.write(33);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write(31);
-  OpenLCD.write((int)0);
+  Write('|');
+  Write(33);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write(31);
+  Write((int)0);
 
   delay(2000);
 
-  OpenLCD.write('|'); //Setting character
-  OpenLCD.write('-'); //Clear display
+  Write('|'); //Setting character
+  Write('-'); //Clear display
   delay(500);
-  OpenLCD.write(254);
-  OpenLCD.write(128 + 0 + 0);
+  Write(254);
+  Write(128 + 0 + 0);
   
   // Opening Message
-  OpenLCD.print("EPIC DICE ROLLER  May the rolls ");
+  Print("EPIC DICE ROLLER  May the rolls ");
   delay(1500);
-  OpenLCD.print("EPIC DICE ROLLER  be with you!  ");
+  Print("EPIC DICE ROLLER  be with you!  ");
   delay(1500);
   // Initialize Screen
   printDice();
@@ -228,14 +240,20 @@ void setup() {
 
 void printDice()
 {
-  char line1[16] = "      ";
-  char numDice_s[5];
-  char diceValue_s[5];
-  const char menuLine[17] = " -d   Roll   +d ";
-  char output[32];
   disableAllInterrupts();
+  char output[32] = "";
+  char diceVal[3] = "";
+  char line1[16] = "";
+  char line2[16] = "";
+  int line1Length = 0;
+  int line2Length = 0;
   if (currentState == SETUP)
   {
+    strcpy(output, "");
+    strcat(line1, "      ");
+    char numDice_s[5];
+    char diceValue_s[5];
+    const char menuLine[16] = " -d   Roll   +d ";
     R = G = B = false;
     itoa(numDice, numDice_s, 10);
     strcat(line1, numDice_s);
@@ -257,23 +275,17 @@ void printDice()
     strcpy(output, line1);
     strcat(output, menuLine);
 
-    OpenLCD.write('|'); //Setting character
-    OpenLCD.write('-'); //Clear display
-    OpenLCD.write(254);
-    OpenLCD.write(128 + 0 + 0);
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
     // Print ndm dice and menu options
-    OpenLCD.print(output);
+    Print(output);
    
   }
   else if (currentState == PREVIOUS)
   {
-    char diceVal[3] = "";
-    //itoa(numDice, numDice_s, 10);
-    char line1[16] = "";
-    char line2[16] = "";
-    int line1Length = 0;
-    int line2Length = 0;
-
+    strcpy(output, "");
     for (unsigned int i = 0; i < 5; i++)
     {
       if (rolledDice[i] != 0)
@@ -305,21 +317,19 @@ void printDice()
     line2Length = strlen(line2);
     if (line2Length < 16)
     {
-      for (unsigned int i = 0; i < 16 - line1Length; i++)
+      for (unsigned int i = 0; i < 16 - line2Length; i++)
       {
         strcat(line2, " ");
       }
     }
-    
-    strcpy(output, line1);
+    strcat(output, line1);
     strcat(output, line2);
-  
-    OpenLCD.write('|'); //Setting character
-    OpenLCD.write('-'); //Clear display
-    OpenLCD.write(254);
-    OpenLCD.write(128 + 0 + 0);
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
     // Print ndm dice and menu options
-    OpenLCD.print(output);
+    Print(output);
   }
   enableAllInterrupts();
   
@@ -328,9 +338,7 @@ void printDice()
 void rollDice()
 {
     disableAllInterrupts();
-
     currentState = ROLL;
-    
     previousDiceRoll = diceRoll;
     diceRoll = 0;
     for (int i = 0; i < MAX_NUM_DICE; i++) {
@@ -350,10 +358,10 @@ void rollDice()
     else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
       crit1 = true;
       
-    OpenLCD.write(254);
-    OpenLCD.write(128 + 0 + 0);
-    OpenLCD.write('|'); //Setting character
-    OpenLCD.write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
+    Write('|'); //Setting character
+    Write('-'); //Clear display
     tiltCount = 0;
     canTilt = false;
     pntRoll = true;
@@ -394,12 +402,12 @@ void printRoll()
     strcpy(output, line1);
     strcat(output, menuLine);
 
-    OpenLCD.write('|'); //Setting character
-    OpenLCD.write('-'); //Clear display
-    OpenLCD.write(254);
-    OpenLCD.write(128 + 0 + 0);
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
     // Print ndm dice and menu options
-    OpenLCD.print(output);
+    Print(output);
     enableAllInterrupts();
   }
 }
@@ -418,36 +426,35 @@ void printDisplay()
   strcpy(output, line1);
   strcat(output, line2);
 
-  OpenLCD.write('|'); //Setting character
-  OpenLCD.write('-'); //Clear display
-  OpenLCD.write(254);
-  OpenLCD.write(128 + 0 + 0);
+  Write('|'); //Setting character
+  Write('-'); //Clear display
+  Write(254);
+  Write(128 + 0 + 0);
   // Print ndm dice and menu options
-  OpenLCD.print(output);
+  Print(output);
 
-  OpenLCD.write(254);
-  OpenLCD.write(128 + 64 + 1);
-  OpenLCD.write('|');
-  OpenLCD.write(setCustomChar(Rval - 128));
+  Write(254);
+  Write(128 + 64 + 1);
+  Write('|');
+  Write(setCustomChar(Rval - 128));
   
-  OpenLCD.write(254);
-  OpenLCD.write(128 + 64 + 8);
-  OpenLCD.write('|');
-  OpenLCD.write(setCustomChar(Gval - 158));
+  Write(254);
+  Write(128 + 64 + 8);
+  Write('|');
+  Write(setCustomChar(Gval - 158));
   
-  OpenLCD.write(254);
-  OpenLCD.write(128 + 64 + 15);
-  OpenLCD.write('|');
-  OpenLCD.write(setCustomChar(Bval - 188));
+  Write(254);
+  Write(128 + 64 + 15);
+  Write('|');
+  Write(setCustomChar(Bval - 188));
 
-  // set background
-  OpenLCD.write('|'); 
-  OpenLCD.write(Rval); 
-  OpenLCD.write('|'); 
-  OpenLCD.write(Gval); 
-  OpenLCD.write('|'); 
-  OpenLCD.write(Bval); 
-  
+//  // set background
+  Write(124); 
+  Write(Rval); 
+  Write(124);
+  Write(Gval); 
+  Write(124); 
+  Write(Bval); 
   enableAllInterrupts();
 }
 
@@ -458,13 +465,21 @@ void printDisplay()
 // the interrupt routine of the tilt switch.
 void loop() {
   // for some reason fewer errors when nesting functions in interrupt handlers less...
+  if (canTilt)
+  {
+    enableInterrupt(TILTSWITCH, tiltFunc, CHANGE);
+  }
+  else
+  {
+    disableInterrupt(TILTSWITCH);
+  }
   while (OpenLCD.available() < 0)
   {
     delay(50);
   }
   if (shakeIt)
   {
-    OpenLCD.print("SHAKE IT! ");
+    Print("SHAKE IT! ");
     shakeIt = false;
     return;
   }
@@ -485,33 +500,33 @@ void loop() {
       for (int x = 0; x < 3; x++)
       {
       // clear screen
-      OpenLCD.write('|');
-      OpenLCD.write('-');
-      OpenLCD.print("   NATURAL 20                   ");
-      OpenLCD.write('|');
-      OpenLCD.write(128);
-      OpenLCD.write('|');
-      OpenLCD.write(187);
-      OpenLCD.write('|');
-      OpenLCD.write(188);
+      Write('|');
+      Write('-');
+      Print("   NATURAL 20                   ");
+      Write('|');
+      Write(128);
+      Write('|');
+      Write(187);
+      Write('|');
+      Write(188);
       myDelay((unsigned long)500);
-      OpenLCD.write('|');
-      OpenLCD.write('-');
-      OpenLCD.print("                   NATURAL 20   ");
-      OpenLCD.write('|');
-      OpenLCD.write(128);
-      OpenLCD.write('|');
-      OpenLCD.write(158);
-      OpenLCD.write('|');
-      OpenLCD.write(217);
+      Write('|');
+      Write('-');
+      Print("                   NATURAL 20   ");
+      Write('|');
+      Write(128);
+      Write('|');
+      Write(158);
+      Write('|');
+      Write(217);
       myDelay((unsigned long)500);
       }
-      OpenLCD.write('|');
-      OpenLCD.write(Rval);
-      OpenLCD.write('|');
-      OpenLCD.write(Gval);
-      OpenLCD.write('|');
-      OpenLCD.write(Bval);
+      Write('|');
+      Write(Rval);
+      Write('|');
+      Write(Gval);
+      Write('|');
+      Write(Bval);
       nat20 = false;
     }
     else if (crit1)
@@ -519,33 +534,33 @@ void loop() {
       for (int x = 0; x < 3; x++) 
       {
       // clear screen
-      OpenLCD.write('|');
-      OpenLCD.write('-');
-      OpenLCD.print("   CRITICAL 1                   ");
-      OpenLCD.write('|');
-      OpenLCD.write(157);
-      OpenLCD.write('|');
-      OpenLCD.write(158);
-      OpenLCD.write('|');
-      OpenLCD.write(188);
+      Write('|');
+      Write('-');
+      Print("   CRITICAL 1                   ");
+      Write('|');
+      Write(157);
+      Write('|');
+      Write(158);
+      Write('|');
+      Write(188);
       myDelay((unsigned long)500);
-      OpenLCD.write('|');
-      OpenLCD.write('-');
-      OpenLCD.print("                   CRITICAL 1   ");
-      OpenLCD.write('|');
-      OpenLCD.write(157);
-      OpenLCD.write('|');
-      OpenLCD.write(158);
-      OpenLCD.write('|');
-      OpenLCD.write(200);
+      Write('|');
+      Write('-');
+      Print("                   CRITICAL 1   ");
+      Write('|');
+      Write(157);
+      Write('|');
+      Write(158);
+      Write('|');
+      Write(200);
       myDelay((unsigned long)500);
       }
-      OpenLCD.write('|');
-      OpenLCD.write(Rval);
-      OpenLCD.write('|');
-      OpenLCD.write(Gval);
-      OpenLCD.write('|');
-      OpenLCD.write(Bval);
+      Write('|');
+      Write(Rval);
+      Write('|');
+      Write(Gval);
+      Write('|');
+      Write(Bval);
       crit1 = false;
     }
     printRoll();
@@ -579,10 +594,11 @@ void loop() {
     }
     if (canTiltMessage)
     {
-        OpenLCD.write('|');
-        OpenLCD.write('-');
-        OpenLCD.print("  Shaking Mode    Activated!");
-        myDelay((unsigned long)1500);
+        Write('|');
+        Write('-');
+        Print("  Shaking Mode    Activated!");
+        myDelay((unsigned long)1000);
+        canTilt = true;
         canTiltMessage = false;
     }
   }
@@ -592,10 +608,10 @@ void loop() {
     if (prevMessage)
     {
       myDelay((unsigned long)1000);
-      OpenLCD.write(254);
-      OpenLCD.write(128 + 64 + 12);
-      OpenLCD.print("Back");
       prevMessage = false;
+      Write(254);
+      Write(128 + 64 + 12);
+      Print("Back");
     }
   }
   else if (currentState == DISP)
@@ -627,14 +643,15 @@ void loop() {
     }
     if (randomMessage)
     {
-      OpenLCD.write('|');
-      OpenLCD.write('-');
-      OpenLCD.print("Use buttons to  set RGB display!");
-      myDelay((unsigned long)2000);
-      OpenLCD.write('|');
-      OpenLCD.write('-');
-      OpenLCD.print("Or shake for a  random color!");
-      myDelay((unsigned long)2000);
+      Write('|');
+      Write('-');
+      Print("Use buttons to  set RGB display!");
+      myDelay((unsigned long)1500);
+      Write('|');
+      Write('-');
+      Print("Or shake for a  random color!");
+      myDelay((unsigned long)1500);
+      canTilt = true;
       pntDisplay = true;
       randomMessage = false;
     }
@@ -749,7 +766,6 @@ void toggleUpFunc() {
     if (currentState == SETUP && switchState == LOW)
     {
       currentState = DISP;
-      canTilt = true;
       randomMessage = true;
     }
     else
@@ -765,7 +781,6 @@ void toggleDownFunc() {
     int switchState = digitalRead(TOGGLEDOWN);
     if (currentState == SETUP && switchState == LOW)
     {
-      canTilt = true;
       canTiltMessage = true;
     }
     else
@@ -786,15 +801,15 @@ void tiltFunc() {
     {
       if (tiltCount == 400)
       {
-        OpenLCD.write('|');
+        Write('|');
         Rval = Entropy.random(128,157);
-        OpenLCD.write(Rval);
-        OpenLCD.write('|');
+        Write(Rval);
+        Write('|');
         Gval = Entropy.random(158,187);
-        OpenLCD.write(Gval);
-        OpenLCD.write('|');
+        Write(Gval);
+        Write('|');
         Bval = Entropy.random(188,217);
-        OpenLCD.write(Bval);
+        Write(Bval);
         pntDisplay = true;
         tiltCount = 0;
       }
@@ -804,21 +819,22 @@ void tiltFunc() {
       if (tiltCount % 150 == 0)
       {
         shakeIt = true;
-        OpenLCD.write('|');
-        OpenLCD.write(Entropy.random(128,157));
-        OpenLCD.write('|');
-        OpenLCD.write(Entropy.random(158,187));
-        OpenLCD.write('|');
-        OpenLCD.write(Entropy.random(188,217));
+        Write('|');
+        Write(Entropy.random(128,157));
+        Write('|');
+        Write(Entropy.random(158,187));
+        Write('|');
+        Write(Entropy.random(188,217));
       }
       if (tiltCount > 1000)
       {
-        OpenLCD.write('|');
-        OpenLCD.write(Rval);
-        OpenLCD.write('|');
-        OpenLCD.write(Gval);
-        OpenLCD.write('|');
-        OpenLCD.write(Bval);
+        disableInterrupt(TILTSWITCH);
+        Write('|');
+        Write(Rval);
+        Write('|');
+        Write(Gval);
+        Write('|');
+        Write(Bval);
         currentState = ROLL;
         tiltCount = 0;
         canTilt = false;
@@ -861,9 +877,9 @@ void enableAllInterrupts()
 void clearChar(int row, int col)
 {
   row = row * 64;
-  OpenLCD.write(254);
-  OpenLCD.write(128 + row + col);
-  OpenLCD.print(" ");
+  Write(254);
+  Write(128 + row + col);
+  Print(" ");
 }
 
 void myDelay(unsigned long delayTime)
@@ -891,4 +907,21 @@ int setCustomChar(int val)
     return 40;
   else if (val > 24 && val < 31)
     return 41;
+}
+
+// wrapper functions to only allow writes or prints when LCD is ready.
+void Print(char *string)
+{
+  while (OpenLCD.available() != 0)
+  {
+  }
+  OpenLCD.print(string);
+}
+
+void Write(int val)
+{
+  while (OpenLCD.available() != 0)
+  {
+  }
+  OpenLCD.write(val);
 }
