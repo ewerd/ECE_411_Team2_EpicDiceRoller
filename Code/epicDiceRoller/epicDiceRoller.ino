@@ -39,11 +39,17 @@ void encoderUpdate();
 // Run time Functions
 void printDice();
 void printRoll();
+void printRolledDice();
+void printDisplay();
+void changeDice();
+void changeColor();
+void customMessage(char *string, unsigned long delayTime);
 void clearChar(int row, int col);
 void myDelay(unsigned long delayTime);
 int setCustomChar(int val);
 void critical1();
 void natural20();
+void yahtzee();
 void Print(char *string);
 void Write(int val);
 
@@ -131,7 +137,6 @@ void setup() {
   Write('|'); 
   Write(Bval); 
   
-
   // Record custom characters
   Write('|');
   Write(27);
@@ -254,43 +259,9 @@ void loop() {
   }
   else if (pntRoll) 
   {
-    if (nat20)
-    {
-      //natural20();
-    }
     else if (crit1)
     {
-      for (int x = 0; x < 3; x++) 
-      {
-      // clear screen
-      Write('|');
-      Write('-');
-      Print("   CRITICAL 1                   ");
-      Write('|');
-      Write(157);
-      Write('|');
-      Write(158);
-      Write('|');
-      Write(188);
-      myDelay((unsigned long)250);
-      Write('|');
-      Write('-');
-      Print("                   CRITICAL 1   ");
-      Write('|');
-      Write(157);
-      Write('|');
-      Write(158);
-      Write('|');
-      Write(200);
-      myDelay((unsigned long)250);
-      }
-      Write('|');
-      Write(Rval);
-      Write('|');
-      Write(Gval);
-      Write('|');
-      Write(Bval);
-      crit1 = false;
+      
     }
     printRoll();
     pntRoll = false;
@@ -392,132 +363,126 @@ void loop() {
 void printDice()
 {
   disableAllInterrupts();
-  
-  if (currentState == SETUP)
+  myDelay(1000);
+  char setupOutput[32] = "";
+  char numDice_s[10];
+  char diceValue_s[10];
+  char diceLine[16] = "";
+  const char menuLine[16] = " -d   Roll   +d ";
+  R = G = B = false;
+
+  itoa(numDice, numDice_s, 10);
+  strcat(diceLine, "      ");
+  strcat(diceLine, numDice_s);
+  strcat(diceLine, "d");
+  itoa(dice[diceIndex],diceValue_s, 10);
+  strcat(diceLine, diceValue_s);
+
+  int diceLineLength = strlen(diceLine);
+  if (diceLineLength < 16)
   {
-    myDelay(1000);
-    char setupOutput[32] = "";
-    char numDice_s[10];
-    char diceValue_s[10];
-    char diceLine[16] = "";
-    const char menuLine[16] = " -d   Roll   +d ";
-    R = G = B = false;
-    
-    itoa(numDice, numDice_s, 10);
-    strcat(diceLine, "      ");
-    strcat(diceLine, numDice_s);
-    strcat(diceLine, "d");
-    itoa(dice[diceIndex],diceValue_s, 10);
-    strcat(diceLine, diceValue_s);
-    
-    int diceLineLength = strlen(diceLine);
-    if (diceLineLength < 16)
+    for (unsigned int i = 0; i < 16 -diceLineLength; i++)
     {
-      for (unsigned int i = 0; i < 16 -diceLineLength; i++)
-      {
-        strcat(diceLine, " ");
-      }
+      strcat(diceLine, " ");
     }
-    
-    strcpy(setupOutput, diceLine);
-    strcat(setupOutput, menuLine);
-
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    Write(254);
-    Write(128 + 0 + 0);
-    // Print ndm dice and menu options
-    Print(setupOutput);
-   
   }
-  else if (currentState == PREVIOUS)
+
+  strcpy(setupOutput, diceLine);
+  strcat(setupOutput, menuLine);
+
+  Write('|'); //Setting character
+  Write('-'); //Clear display
+  Write(254);
+  Write(128 + 0 + 0);
+  // Print ndm dice and menu options
+  Print(setupOutput);
+  enableAllInterrupts();
+}
+
+void printRolledDice();
+{
+  disableAllInterrupts();
+  char diceVal[5] = "";
+  int line1Length = 0;
+  int line2Length = 0;
+  int i = 0;
+  char line1[16] = "";
+  char line2[16] = "";
+
+  for (i = 0; i < 5; i++)
   {
-    char diceVal[5] = "";
-    int line1Length = 0;
-    int line2Length = 0;
-    int i = 0;
-    char line1[16] = "";
-    char line2[16] = "";
-
-    for (i = 0; i < 5; i++)
+    if (rolledDice[i] != 0)
     {
-      if (rolledDice[i] != 0)
-      {
-        itoa(rolledDice[i], diceVal, 10);
-        strcat(line1, diceVal);
-        strcat(line1, " "); 
-      }
+      itoa(rolledDice[i], diceVal, 10);
+      strcat(line1, diceVal);
+      strcat(line1, " "); 
     }
-    for (i = 5; i < 10; i++)
-    {
-      if (rolledDice[i] != 0)
-      {
-        itoa(rolledDice[i], diceVal, 10);
-        strcat(line2, diceVal);
-        strcat(line2, " "); 
-      }
-    }
-
-    line1Length = strlen(line1);
-    if (line1Length < 16)
-    {
-      for (i = 0; i < 16 - line1Length; i++)
-      {
-        strcat(line1, " ");
-      }
-    }
-    line2Length = strlen(line2);
-    if (line2Length < 16)
-    {
-      for (i = 0; i < 16 - line2Length; i++)
-      {
-        strcat(line2, " ");
-      }
-    }
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    Write(254);
-    Write(128 + 0 + 0);
-    // Print ndm dice and menu options
-    Print(line1);
-    Print(line2);
   }
+  for (i = 5; i < 10; i++)
+  {
+    if (rolledDice[i] != 0)
+    {
+      itoa(rolledDice[i], diceVal, 10);
+      strcat(line2, diceVal);
+      strcat(line2, " "); 
+    }
+  }
+
+  line1Length = strlen(line1);
+  if (line1Length < 16)
+  {
+    for (i = 0; i < 16 - line1Length; i++)
+    {
+      strcat(line1, " ");
+    }
+  }
+  line2Length = strlen(line2);
+  if (line2Length < 16)
+  {
+    for (i = 0; i < 16 - line2Length; i++)
+    {
+      strcat(line2, " ");
+    }
+  }
+  Write('|'); //Setting character
+  Write('-'); //Clear display
+  Write(254);
+  Write(128 + 0 + 0);
+  Print(line1);
+  Print(line2);
   enableAllInterrupts();
 }
 
 void rollDice()
 {
-    disableAllInterrupts();
-    currentState = ROLL;
-    previousDiceRoll = diceRoll;
-    diceRoll = 0;
-    for (int i = 0; i < MAX_NUM_DICE; i++) {
-      if (i < numDice)
-      {
-        rolledDice[i] = Entropy.random(1, dice[diceIndex] + 1);
-        diceRoll = diceRoll + rolledDice[i];
-      }
-      else
-      {
-        rolledDice[i] = 0;
-      }
-    }
-    
-    if (numDice == 1 && rolledDice[0] == 20 && dice[diceIndex] == 20)
+  disableAllInterrupts();
+  currentState = ROLL;
+  previousDiceRoll = diceRoll;
+  diceRoll = 0;
+  for (int i = 0; i < MAX_NUM_DICE; i++) {
+    if (i < numDice)
     {
-      nat20 = true;
-      natural20();
+      rolledDice[i] = Entropy.random(1, dice[diceIndex] + 1);
+      diceRoll = diceRoll + rolledDice[i];
     }
-    else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
-      crit1 = true;
-      
-    Write(254);
-    Write(128 + 0 + 0);
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    tiltCount = 0;
-    canTilt = false;
-    pntRoll = true;
+    else
+    {
+      rolledDice[i] = 0;
+    }
+  }
+
+  if (numDice == 1 && rolledDice[0] == 20 && dice[diceIndex] == 20)
+    natural20();
+  else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
+    critical1();
+
+  Write(254);
+  Write(128 + 0 + 0);
+  Write('|'); //Setting character
+  Write('-'); //Clear display
+  tiltCount = 0;
+  canTilt = false;
+  pntRoll = true;
 }
 
 void printRoll()
@@ -650,38 +615,70 @@ int setCustomChar(int val)
 void natural20()
 {
   for (int x = 0; x < 3; x++)
-        {
-        // clear screen
-        Write('|');
-        Write('-');
-        Print("   NATURAL 20                   ");
-        Write('|');
-        Write(128);
-        Write('|');
-        Write(187);
-        Write('|');
-        Write(188);
-        myDelay(250);
-        Write('|');
-        Write('-');
-        Print("                   NATURAL 20   ");
-        Write('|');
-        Write(128);
-        Write('|');
-        Write(158);
-        Write('|');
-        Write(217);
-        myDelay(250);
-        }
-        Write('|');
-        Write(Rval);
-        Write('|');
-        Write(Gval);
-        Write('|');
-        Write(Bval);
-        nat20 = false;
+  {
+    // clear screen
+    Write('|');
+    Write('-');
+    Print("   NATURAL 20                   ");
+    Write('|');
+    Write(128);
+    Write('|');
+    Write(187);
+    Write('|');
+    Write(188);
+    myDelay(250);
+    Write('|');
+    Write('-');
+    Print("                   NATURAL 20   ");
+    Write('|');
+    Write(128);
+    Write('|');
+    Write(158);
+    Write('|');
+    Write(217);
+    myDelay(250);
+  }
+  Write('|');
+  Write(Rval);
+  Write('|');
+  Write(Gval);
+  Write('|');
+  Write(Bval);
 }
 
+void critical1()
+{
+  for (int x = 0; x < 3; x++) 
+  {
+    // clear screen
+    Write('|');
+    Write('-');
+    Print("   CRITICAL 1                   ");
+    Write('|');
+    Write(157);
+    Write('|');
+    Write(158);
+    Write('|');
+    Write(188);
+    myDelay((unsigned long)250);
+    Write('|');
+    Write('-');
+    Print("                   CRITICAL 1   ");
+    Write('|');
+    Write(157);
+    Write('|');
+    Write(158);
+    Write('|');
+    Write(200);
+    myDelay((unsigned long)250);
+  }
+  Write('|');
+  Write(Rval);
+  Write('|');
+  Write(Gval);
+  Write('|');
+  Write(Bval);
+}
 // wrapper functions to only allow writes or prints when LCD is ready.
 void Print(char *string)
 {
