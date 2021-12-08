@@ -1,4 +1,4 @@
-/**
+ /**
    epicDiceRoller
    by Team 2
    Braden Harwood, Stephen Short, Michael Weston, Drew Seidel
@@ -36,18 +36,16 @@ void toggleUpFunc();
 void toggleDownFunc();
 void encoderUpdate();
 
-
 // Run time Functions
 void printDice();
 void printRoll();
 void clearChar(int row, int col);
 void myDelay(unsigned long delayTime);
 int setCustomChar(int val);
-void diceExplode();
+void critical1();
 void natural20();
 void Print(char *string);
 void Write(int val);
-
 
 // Object definitions for encoder and LCD screen
 RotaryEncoder encoder(ROTARYPINA, ROTARYPINB);
@@ -61,7 +59,7 @@ state_t currentState = SETUP;
 // Contrast definition for the LCD Screen
 byte contrast = 1; //Lower is more contrast. 0 to 5 works for most displays.
 
-// Global Dice Array that holds all of the values of dice that are available
+// Globals
 const int dice[NUM_POSSIBLE_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100};
 int rolledDice[10] = {0};
 int diceIndex = 7;
@@ -84,8 +82,6 @@ bool nat20 = false, crit1 = false;
 
 void setup() {
 
-  Serial.begin(9600);
-  
   // Pins without external pull ups
   pinMode(ROTARYPINA, INPUT_PULLUP);
   pinMode(ROTARYPINB, INPUT_PULLUP);
@@ -202,17 +198,17 @@ void setup() {
   Write(B11111);
   Write(B11111);
   Write(B00000);
-//  
-//  Write('|');
-//  Write(33);
-//  Write(B11111);
-//  Write(B11111);
-//  Write(B11111);
-//  Write(B11111);
-//  Write(B11111);
-//  Write(B11111);
-//  Write(B11111);
-//  Write(B00000);
+  
+  Write('|');
+  Write(33);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B00000);
 
   delay(2000);
 
@@ -230,228 +226,6 @@ void setup() {
   // Initialize Screen
   printDice();
 }
-
-
-void printDice()
-{
-  disableAllInterrupts();
-  
-  if (currentState == SETUP)
-  {
-    char setupOutput[32] = "";
-    char numDice_s[10];
-    char diceValue_s[10];
-    char diceLine[16] = "";
-    const char menuLine[16] = " -d   Roll   +d ";
-    R = G = B = false;
-    
-    itoa(numDice, numDice_s, 10);
-    strcat(diceLine, "      ");
-    strcat(diceLine, numDice_s);
-    strcat(diceLine, "d");
-    itoa(dice[diceIndex],diceValue_s, 10);
-    strcat(diceLine, diceValue_s);
-    
-    int diceLineLength = strlen(diceLine);
-    if (diceLineLength < 16)
-    {
-      for (unsigned int i = 0; i < 16 -diceLineLength; i++)
-      {
-        strcat(diceLine, " ");
-      }
-    }
-    
-    strcpy(setupOutput, diceLine);
-    strcat(setupOutput, menuLine);
-
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    Write(254);
-    Write(128 + 0 + 0);
-    // Print ndm dice and menu options
-    Print(setupOutput);
-   
-  }
-  else if (currentState == PREVIOUS)
-  {
-    char diceVal[5] = "";
-    int line1Length = 0;
-    int line2Length = 0;
-    int i = 0;
-    char line1[16] = "";
-    char line2[16] = "";
-
-    for (i = 0; i < 5; i++)
-    {
-      if (rolledDice[i] != 0)
-      {
-        itoa(rolledDice[i], diceVal, 10);
-        strcat(line1, diceVal);
-        strcat(line1, " "); 
-      }
-    }
-    for (i = 5; i < 10; i++)
-    {
-      if (rolledDice[i] != 0)
-      {
-        itoa(rolledDice[i], diceVal, 10);
-        strcat(line2, diceVal);
-        strcat(line2, " "); 
-      }
-    }
-
-    line1Length = strlen(line1);
-    if (line1Length < 16)
-    {
-      for (i = 0; i < 16 - line1Length; i++)
-      {
-        strcat(line1, " ");
-      }
-    }
-
-    line2Length = strlen(line2);
-    if (line2Length < 16)
-    {
-      for (i = 0; i < 16 - line2Length; i++)
-      {
-        strcat(line2, " ");
-      }
-    }
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    Write(254);
-    Write(128 + 0 + 0);
-    // Print ndm dice and menu options
-    Print(line1);
-    Print(line2);
-  }
-  enableAllInterrupts();
-  
-}
-
-void rollDice()
-{
-    disableAllInterrupts();
-    currentState = ROLL;
-    previousDiceRoll = diceRoll;
-    diceRoll = 0;
-    for (int i = 0; i < MAX_NUM_DICE; i++) {
-      if (i < numDice)
-      {
-        rolledDice[i] = Entropy.random(1, dice[diceIndex] + 1);
-        diceRoll = diceRoll + rolledDice[i];
-      }
-      else
-      {
-        rolledDice[i] = 0;
-      }
-    }
-    
-    if (numDice == 1 && rolledDice[0] == 20 && dice[diceIndex] == 20)
-      nat20 = true;
-    else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
-      crit1 = true;
-      
-    Write(254);
-    Write(128 + 0 + 0);
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    tiltCount = 0;
-    canTilt = false;
-    pntRoll = true;
-}
-
-void printRoll()
-{
-  char line1[16] = "";
-  char numDice_s[5];
-  char diceValue_s[5];
-  char rollValue_s[5];
-  const char menuLine[17] = "Dice  Home  Redo";
-  char output[32];
-  if (currentState == ROLL)
-  {
-    itoa(numDice, numDice_s, 10);
-    strcat(line1, numDice_s);
-
-    strcat(line1, "d");
-
-    itoa(dice[diceIndex], diceValue_s, 10);
-    strcat(line1, diceValue_s);
-
-    strcat(line1, " = ");
-
-    itoa(diceRoll, rollValue_s, 10);
-    strcat(line1, rollValue_s);
-
-    int line1Length = strlen(line1);
-    if (line1Length < 16)
-    {
-      for (unsigned int i = 0; i < 16 - line1Length; i++)
-      {
-        strcat(line1, " ");
-      }
-    }
-
-    strcpy(output, line1);
-    strcat(output, menuLine);
-
-    Write('|'); //Setting character
-    Write('-'); //Clear display
-    Write(254);
-    Write(128 + 0 + 0);
-    // Print ndm dice and menu options
-    Print(output);
-    enableAllInterrupts();
-  }
-}
-
-void printDisplay()
-{
-  disableAllInterrupts();
-  char diceVal[3] = "";
-  //itoa(numDice, numDice_s, 10);
-  char line1[16] = "Set RGB Display!";
-  char line2[16] = "R      G      B ";
-  char output[32] = "";
-  int line1Length = 0;
-  int line2Length = 0;
-  
-  strcpy(output, line1);
-  strcat(output, line2);
-
-  Write('|'); //Setting character
-  Write('-'); //Clear display
-  Write(254);
-  Write(128 + 0 + 0);
-  // Print ndm dice and menu options
-  Print(output);
-
-  Write(254);
-  Write(128 + 64 + 1);
-  Write('|');
-  Write(setCustomChar(Rval - 128));
-  
-  Write(254);
-  Write(128 + 64 + 8);
-  Write('|');
-  Write(setCustomChar(Gval - 158));
-  
-  Write(254);
-  Write(128 + 64 + 15);
-  Write('|');
-  Write(setCustomChar(Bval - 188));
-
-//  // set background
-  Write(124); 
-  Write(Rval); 
-  Write(124);
-  Write(Gval); 
-  Write(124); 
-  Write(Bval); 
-  enableAllInterrupts();
-}
-
 
 // In the loop, we just check to see where the interrupt count is at. The value gets updated by
 // the interrupt routine of the tilt switch.
@@ -482,37 +256,7 @@ void loop() {
   {
     if (nat20)
     {
-      for (int x = 0; x < 3; x++)
-      {
-      // clear screen
-      Write('|');
-      Write('-');
-      Print("   NATURAL 20                   ");
-      Write('|');
-      Write(128);
-      Write('|');
-      Write(187);
-      Write('|');
-      Write(188);
-      myDelay((unsigned long)250);
-      Write('|');
-      Write('-');
-      Print("                   NATURAL 20   ");
-      Write('|');
-      Write(128);
-      Write('|');
-      Write(158);
-      Write('|');
-      Write(217);
-      myDelay((unsigned long)250);
-      }
-      Write('|');
-      Write(Rval);
-      Write('|');
-      Write(Gval);
-      Write('|');
-      Write(Bval);
-      nat20 = false;
+      //natural20();
     }
     else if (crit1)
     {
@@ -644,6 +388,316 @@ void loop() {
   }
 }
 
+// Runtime Function Code
+void printDice()
+{
+  disableAllInterrupts();
+  
+  if (currentState == SETUP)
+  {
+    myDelay(1000);
+    char setupOutput[32] = "";
+    char numDice_s[10];
+    char diceValue_s[10];
+    char diceLine[16] = "";
+    const char menuLine[16] = " -d   Roll   +d ";
+    R = G = B = false;
+    
+    itoa(numDice, numDice_s, 10);
+    strcat(diceLine, "      ");
+    strcat(diceLine, numDice_s);
+    strcat(diceLine, "d");
+    itoa(dice[diceIndex],diceValue_s, 10);
+    strcat(diceLine, diceValue_s);
+    
+    int diceLineLength = strlen(diceLine);
+    if (diceLineLength < 16)
+    {
+      for (unsigned int i = 0; i < 16 -diceLineLength; i++)
+      {
+        strcat(diceLine, " ");
+      }
+    }
+    
+    strcpy(setupOutput, diceLine);
+    strcat(setupOutput, menuLine);
+
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
+    // Print ndm dice and menu options
+    Print(setupOutput);
+   
+  }
+  else if (currentState == PREVIOUS)
+  {
+    char diceVal[5] = "";
+    int line1Length = 0;
+    int line2Length = 0;
+    int i = 0;
+    char line1[16] = "";
+    char line2[16] = "";
+
+    for (i = 0; i < 5; i++)
+    {
+      if (rolledDice[i] != 0)
+      {
+        itoa(rolledDice[i], diceVal, 10);
+        strcat(line1, diceVal);
+        strcat(line1, " "); 
+      }
+    }
+    for (i = 5; i < 10; i++)
+    {
+      if (rolledDice[i] != 0)
+      {
+        itoa(rolledDice[i], diceVal, 10);
+        strcat(line2, diceVal);
+        strcat(line2, " "); 
+      }
+    }
+
+    line1Length = strlen(line1);
+    if (line1Length < 16)
+    {
+      for (i = 0; i < 16 - line1Length; i++)
+      {
+        strcat(line1, " ");
+      }
+    }
+    line2Length = strlen(line2);
+    if (line2Length < 16)
+    {
+      for (i = 0; i < 16 - line2Length; i++)
+      {
+        strcat(line2, " ");
+      }
+    }
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
+    // Print ndm dice and menu options
+    Print(line1);
+    Print(line2);
+  }
+  enableAllInterrupts();
+}
+
+void rollDice()
+{
+    disableAllInterrupts();
+    currentState = ROLL;
+    previousDiceRoll = diceRoll;
+    diceRoll = 0;
+    for (int i = 0; i < MAX_NUM_DICE; i++) {
+      if (i < numDice)
+      {
+        rolledDice[i] = Entropy.random(1, dice[diceIndex] + 1);
+        diceRoll = diceRoll + rolledDice[i];
+      }
+      else
+      {
+        rolledDice[i] = 0;
+      }
+    }
+    
+    if (numDice == 1 && rolledDice[0] == 20 && dice[diceIndex] == 20)
+    {
+      nat20 = true;
+      natural20();
+    }
+    else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
+      crit1 = true;
+      
+    Write(254);
+    Write(128 + 0 + 0);
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    tiltCount = 0;
+    canTilt = false;
+    pntRoll = true;
+}
+
+void printRoll()
+{
+  disableAllInterrupts();
+  char line1[16] = "";
+  char numDice_s[5];
+  char diceValue_s[5];
+  char rollValue_s[5];
+  const char menuLine[17] = "Dice  Home  Redo";
+  char output[32];
+  if (currentState == ROLL)
+  {
+    itoa(numDice, numDice_s, 10);
+    strcat(line1, numDice_s);
+
+    strcat(line1, "d");
+
+    itoa(dice[diceIndex], diceValue_s, 10);
+    strcat(line1, diceValue_s);
+
+    strcat(line1, " = ");
+
+    itoa(diceRoll, rollValue_s, 10);
+    strcat(line1, rollValue_s);
+
+    int line1Length = strlen(line1);
+    if (line1Length < 16)
+    {
+      for (unsigned int i = 0; i < 16 - line1Length; i++)
+      {
+        strcat(line1, " ");
+      }
+    }
+
+    strcpy(output, line1);
+    strcat(output, menuLine);
+
+    Write('|'); //Setting character
+    Write('-'); //Clear display
+    Write(254);
+    Write(128 + 0 + 0);
+    // Print ndm dice and menu options
+    Print(output);
+    enableAllInterrupts();
+  }
+}
+
+void printDisplay()
+{
+  disableAllInterrupts();
+  char diceVal[3] = "";
+  //itoa(numDice, numDice_s, 10);
+  char line1[16] = "Set RGB Display!";
+  char line2[16] = "R      G      B ";
+  char output[32] = "";
+  int line1Length = 0;
+  int line2Length = 0;
+  
+  strcpy(output, line1);
+  strcat(output, line2);
+
+  Write('|'); //Setting character
+  Write('-'); //Clear display
+  Write(254);
+  Write(128 + 0 + 0);
+  // Print ndm dice and menu options
+  Print(output);
+
+  Write(254);
+  Write(128 + 64 + 1);
+  Write('|');
+  Write(setCustomChar(Rval - 128));
+  
+  Write(254);
+  Write(128 + 64 + 8);
+  Write('|');
+  Write(setCustomChar(Gval - 158));
+  
+  Write(254);
+  Write(128 + 64 + 15);
+  Write('|');
+  Write(setCustomChar(Bval - 188));
+
+  // set background
+  Write(124); 
+  Write(Rval); 
+  Write(124);
+  Write(Gval); 
+  Write(124); 
+  Write(Bval); 
+  enableAllInterrupts();
+}
+
+void clearChar(int row, int col)
+{
+  row = row * 64;
+  Write(254);
+  Write(128 + row + col);
+  Print(" ");
+}
+
+void myDelay(unsigned long delayTime)
+{
+  unsigned long current = millis();
+  while ((millis() - current) < delayTime)
+  {
+    
+  }
+}
+
+int setCustomChar(int val)
+{
+  if (val < 5)
+    return 35;
+  else if (val > 4 && val < 9)
+    return 36;
+  else if (val > 8 && val < 13)
+    return 37;
+  else if (val > 12 && val < 17)
+    return 38;
+  else if (val > 16 && val < 21)
+    return 39;
+  else if (val > 20 && val < 25)
+    return 40;
+  else if (val > 24 && val < 31)
+    return 41;
+}
+
+void natural20()
+{
+  for (int x = 0; x < 3; x++)
+        {
+        // clear screen
+        Write('|');
+        Write('-');
+        Print("   NATURAL 20                   ");
+        Write('|');
+        Write(128);
+        Write('|');
+        Write(187);
+        Write('|');
+        Write(188);
+        myDelay(250);
+        Write('|');
+        Write('-');
+        Print("                   NATURAL 20   ");
+        Write('|');
+        Write(128);
+        Write('|');
+        Write(158);
+        Write('|');
+        Write(217);
+        myDelay(250);
+        }
+        Write('|');
+        Write(Rval);
+        Write('|');
+        Write(Gval);
+        Write('|');
+        Write(Bval);
+        nat20 = false;
+}
+
+// wrapper functions to only allow writes or prints when LCD is ready.
+void Print(char *string)
+{
+  while (OpenLCD.available() != 0)
+  {
+  }
+  OpenLCD.print(string);
+}
+
+void Write(int val)
+{
+  while (OpenLCD.available() != 0)
+  {
+  }
+  OpenLCD.write(val);
+}
 // Interrupt Function Code
 void leftMenuFunc() {
     int buttonState = digitalRead(LEFTMENU);
@@ -700,8 +754,8 @@ void middleMenuFunc() {
     {
       if (buttonState == LOW)
       {
-        G = true;
         R = false;
+        G = true;
         B = false;
       }
     }
@@ -740,9 +794,9 @@ void rightMenuFunc() {
     {
       if (buttonState == LOW)
       {
-        B = true;
         R = false;
         G = false;
+        B = true;
       }
     }
 }
@@ -856,57 +910,4 @@ void enableAllInterrupts()
   enableInterrupt(TILTSWITCH, tiltFunc, CHANGE);
   enableInterrupt(TOGGLEUP, toggleUpFunc, CHANGE);
   enableInterrupt(TOGGLEDOWN, toggleDownFunc, CHANGE);
-}
-
-// UI and graphics
-void clearChar(int row, int col)
-{
-  row = row * 64;
-  Write(254);
-  Write(128 + row + col);
-  Print(" ");
-}
-
-void myDelay(unsigned long delayTime)
-{
-  unsigned long current = millis();
-  while ((millis() - current) < delayTime)
-  {
-    
-  }
-}
-
-int setCustomChar(int val)
-{
-  if (val < 5)
-    return 35;
-  else if (val > 4 && val < 9)
-    return 36;
-  else if (val > 8 && val < 13)
-    return 37;
-  else if (val > 12 && val < 17)
-    return 38;
-  else if (val > 16 && val < 21)
-    return 39;
-  else if (val > 20 && val < 25)
-    return 40;
-  else if (val > 24 && val < 31)
-    return 41;
-}
-
-// wrapper functions to only allow writes or prints when LCD is ready.
-void Print(char *string)
-{
-  while (OpenLCD.available() != 0)
-  {
-  }
-  OpenLCD.print(string);
-}
-
-void Write(int val)
-{
-  while (OpenLCD.available() != 0)
-  {
-  }
-  OpenLCD.write(val);
 }
