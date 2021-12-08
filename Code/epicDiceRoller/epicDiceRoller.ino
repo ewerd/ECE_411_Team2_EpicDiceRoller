@@ -40,11 +40,11 @@ void encoderUpdate();
 // Run time Functions
 void printDice();
 void printRoll();
-void diceExplode();
-void natural20();
 void clearChar(int row, int col);
 void myDelay(unsigned long delayTime);
 int setCustomChar(int val);
+void diceExplode();
+void natural20();
 void Print(char *string);
 void Write(int val);
 
@@ -69,7 +69,7 @@ int numDice = 1;
 int diceRoll = 0;
 int previousDiceRoll = diceRoll;
 int tiltCount = 0;
-int Rval = 0, Gval = 0, Bval = 0;
+int Rval = 157, Gval = 187, Bval = 217;
 bool rlDice = false;
 bool pntRoll = false;
 bool pntDice = false;
@@ -100,7 +100,7 @@ void setup() {
 
   // Enable the interrupts for the initial state
   enableInterrupt(ROTARYPINA, encoderUpdate, CHANGE);
-  enableInterrupt(ROTARYPINB, encoderUpdate, CHANGE); // commented out because noise from turning the encoder either direction is likely enough to trigger this interrupt
+  enableInterrupt(ROTARYPINB, encoderUpdate, CHANGE);
   enableInterrupt(LEFTMENU, leftMenuFunc, CHANGE);
   enableInterrupt(MIDDLEMENU, middleMenuFunc, CHANGE);
   enableInterrupt(RIGHTMENU, rightMenuFunc, CHANGE);
@@ -109,16 +109,10 @@ void setup() {
   enableInterrupt(TOGGLEDOWN, toggleDownFunc, CHANGE);
 
   OpenLCD.begin(9600); //Start communication with OpenLCD
-//  OpenLCD.write('|'); //Put LCD into setting mode
-//  OpenLCD.write(13); //Send contrast command
+//  OpenLCD.write('|');
+//  OpenLCD.write(13);
 //  exit(1);
   Entropy.initialize();
-  //Send contrast setting
-//  OpenLCD.write('|'); //Put LCD into setting mode
-//  OpenLCD.write(13); //Send disable messages command
-//  exit(0);
-  Write('|'); //Put LCD into setting mode
-  Write(47); //Send disable messages command
   Write('|'); //Put LCD into setting mode
   Write(47); //Send disable messages command
   Write('|'); //Put LCD into setting mode
@@ -129,10 +123,10 @@ void setup() {
   Write(124);
   Write(4);
   
-  
   Rval = 157;
   Gval = 187;
   Bval = 217;
+  
   // set background
   Write('|'); 
   Write(Rval); 
@@ -145,80 +139,80 @@ void setup() {
   // Record custom characters
   Write('|');
   Write(27);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write(31);
-  Write((int)0);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B11111);
+  Write(B00000);
 
   Write('|');
   Write(28);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write(31);
-  Write(31);
-  Write((int)0);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B11111);
+  Write(B11111);
+  Write(B00000);
 
   Write('|');
   Write(29);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write((int)0);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B00000);
 
   Write('|');
   Write(30);
-  Write((int)0);
-  Write((int)0);
-  Write((int)0);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write((int) 0);
+  Write(B00000);
+  Write(B00000);
+  Write(B00000);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B00000);
 
   Write('|');
   Write(31);
-  Write((int)0);
-  Write((int)0);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write((int) 0);
+  Write(B00000);
+  Write(B00000);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B00000);
 
   Write('|');
   Write(32);
-  Write((int)0);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write((int)0);
-  
-  Write('|');
-  Write(33);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write(31);
-  Write((int)0);
+  Write(B00000);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B11111);
+  Write(B00000);
+//  
+//  Write('|');
+//  Write(33);
+//  Write(B11111);
+//  Write(B11111);
+//  Write(B11111);
+//  Write(B11111);
+//  Write(B11111);
+//  Write(B11111);
+//  Write(B11111);
+//  Write(B00000);
 
   delay(2000);
 
@@ -241,52 +235,53 @@ void setup() {
 void printDice()
 {
   disableAllInterrupts();
-  char output[32] = "";
-  char diceVal[3] = "";
-  char line1[16] = "";
-  char line2[16] = "";
-  int line1Length = 0;
-  int line2Length = 0;
+  
   if (currentState == SETUP)
   {
-    strcpy(output, "");
-    strcat(line1, "      ");
-    char numDice_s[5];
-    char diceValue_s[5];
+    char setupOutput[32] = "";
+    char numDice_s[10];
+    char diceValue_s[10];
+    char diceLine[16] = "";
     const char menuLine[16] = " -d   Roll   +d ";
     R = G = B = false;
+    
     itoa(numDice, numDice_s, 10);
-    strcat(line1, numDice_s);
-    
-    strcat(line1, "d");
-    
+    strcat(diceLine, "      ");
+    strcat(diceLine, numDice_s);
+    strcat(diceLine, "d");
     itoa(dice[diceIndex],diceValue_s, 10);
-    strcat(line1, diceValue_s);
+    strcat(diceLine, diceValue_s);
     
-    int line1Length = strlen(line1);
-    if (line1Length < 16)
+    int diceLineLength = strlen(diceLine);
+    if (diceLineLength < 16)
     {
-      for (unsigned int i = 0; i < 16-line1Length; i++)
+      for (unsigned int i = 0; i < 16 -diceLineLength; i++)
       {
-        strcat(line1, " ");
+        strcat(diceLine, " ");
       }
     }
     
-    strcpy(output, line1);
-    strcat(output, menuLine);
+    strcpy(setupOutput, diceLine);
+    strcat(setupOutput, menuLine);
 
     Write('|'); //Setting character
     Write('-'); //Clear display
     Write(254);
     Write(128 + 0 + 0);
     // Print ndm dice and menu options
-    Print(output);
+    Print(setupOutput);
    
   }
   else if (currentState == PREVIOUS)
   {
-    strcpy(output, "");
-    for (unsigned int i = 0; i < 5; i++)
+    char diceVal[5] = "";
+    int line1Length = 0;
+    int line2Length = 0;
+    int i = 0;
+    char line1[16] = "";
+    char line2[16] = "";
+
+    for (i = 0; i < 5; i++)
     {
       if (rolledDice[i] != 0)
       {
@@ -295,7 +290,7 @@ void printDice()
         strcat(line1, " "); 
       }
     }
-    for (unsigned int i = 5; i < 10; i++)
+    for (i = 5; i < 10; i++)
     {
       if (rolledDice[i] != 0)
       {
@@ -308,7 +303,7 @@ void printDice()
     line1Length = strlen(line1);
     if (line1Length < 16)
     {
-      for (unsigned int i = 0; i < 16 - line1Length; i++)
+      for (i = 0; i < 16 - line1Length; i++)
       {
         strcat(line1, " ");
       }
@@ -317,19 +312,18 @@ void printDice()
     line2Length = strlen(line2);
     if (line2Length < 16)
     {
-      for (unsigned int i = 0; i < 16 - line2Length; i++)
+      for (i = 0; i < 16 - line2Length; i++)
       {
         strcat(line2, " ");
       }
     }
-    strcat(output, line1);
-    strcat(output, line2);
     Write('|'); //Setting character
     Write('-'); //Clear display
     Write(254);
     Write(128 + 0 + 0);
     // Print ndm dice and menu options
-    Print(output);
+    Print(line1);
+    Print(line2);
   }
   enableAllInterrupts();
   
@@ -473,16 +467,7 @@ void loop() {
   {
     disableInterrupt(TILTSWITCH);
   }
-  while (OpenLCD.available() < 0)
-  {
-    delay(50);
-  }
-  if (shakeIt)
-  {
-    Print("SHAKE IT! ");
-    shakeIt = false;
-    return;
-  }
+  
   if (rlDice)
   {
     rollDice();
@@ -509,7 +494,7 @@ void loop() {
       Write(187);
       Write('|');
       Write(188);
-      myDelay((unsigned long)500);
+      myDelay((unsigned long)250);
       Write('|');
       Write('-');
       Print("                   NATURAL 20   ");
@@ -519,7 +504,7 @@ void loop() {
       Write(158);
       Write('|');
       Write(217);
-      myDelay((unsigned long)500);
+      myDelay((unsigned long)250);
       }
       Write('|');
       Write(Rval);
@@ -543,7 +528,7 @@ void loop() {
       Write(158);
       Write('|');
       Write(188);
-      myDelay((unsigned long)500);
+      myDelay((unsigned long)250);
       Write('|');
       Write('-');
       Print("                   CRITICAL 1   ");
@@ -553,7 +538,7 @@ void loop() {
       Write(158);
       Write('|');
       Write(200);
-      myDelay((unsigned long)500);
+      myDelay((unsigned long)250);
       }
       Write('|');
       Write(Rval);
@@ -597,7 +582,8 @@ void loop() {
         Write('|');
         Write('-');
         Print("  Shaking Mode    Activated!");
-        myDelay((unsigned long)1000);
+        myDelay((unsigned long)500);
+        pntDice = true;
         canTilt = true;
         canTiltMessage = false;
     }
@@ -818,7 +804,6 @@ void tiltFunc() {
     {
       if (tiltCount % 150 == 0)
       {
-        shakeIt = true;
         Write('|');
         Write(Entropy.random(128,157));
         Write('|');
