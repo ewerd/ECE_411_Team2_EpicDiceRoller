@@ -577,6 +577,17 @@ void printDisplay()
   enableAllInterrupts();
 }
 
+void changeDice()
+{
+  
+}
+void changeColor()
+{
+}
+void customMessage(char *string, unsigned long delayTime)
+{
+  
+}
 void clearChar(int row, int col)
 {
   row = row * 64;
