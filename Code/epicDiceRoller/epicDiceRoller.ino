@@ -209,6 +209,7 @@ void setup() {
   // Opening Message
   custom32Message("EPIC DICE ROLLER May the rolls  ", 1500);
   custom32Message("EPIC DICE ROLLER be with you!   ", 1500);
+  custom32Message("dont index at 1                 ", 100);
   // Initialize Screen
   printDice(); //go to main screen where user has option to roll dice, change dice size, and number of dice. 
 }
