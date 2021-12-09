@@ -69,7 +69,7 @@ byte contrast = 1; //Lower is more contrast. 0 to 5 works for most displays.
 
 // Globals
 const int dice[NUM_POSSIBLE_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100}; //d2, d3, d6...etc. 
-int rolledDice[10] = {0};                                       //array of rolled dice numbers 
+int rolledDice[10] = {0};                                       //array of rolled dice numbers
 int diceIndex = 7;                                              //dice index
 int numDice = 1;                                                //initial num dice
 int diceRoll = 0;                                               //random value of dice roll given size of the die
@@ -86,8 +86,6 @@ bool canTiltMessage = false;                                    //if high, print
 bool randomMessage = false;                                     //in display state, message will be given if toggle is fliped
 bool loaded = false;                                            //false unless in display mode, then true. 
 bool R = false, G = false, B = false;                           
-
-
 
 void setup() {
 
@@ -206,7 +204,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  delay(3000);  //delay 3 seconds
+  delay(2000);  //delay 3 seconds
   
   // Opening Message
   custom32Message("EPIC DICE ROLLER May the rolls  ", 1500);
@@ -270,12 +268,6 @@ void loop() {
       canTilt = true;
       canTiltMessage = false;
     }
-  }
-
-  //previous state
-  else if (currentState == PREVIOUS)
-  {
-    //do nothing. repeat loop
   }
 
   //display state
@@ -413,7 +405,7 @@ void rollDice()
     }
     
     // Check for a Yahtzee
-    if (diceRoll == rolledDice[i])
+    if (numDice > 1 && rolledDice[i-1] == rolledDice[i])
       same++;
       
     diceRoll = diceRoll + rolledDice[i];
@@ -431,7 +423,7 @@ void rollDice()
     natural20();
   else if (numDice == 1 && rolledDice[0] == 1 && dice[diceIndex] == 20)
     critical1();
-  else if (numDice > 1 && same == numDice)
+  else if (numDice == 5 && same == 4)
     yahtzee();
 
   tiltCount = 0;
@@ -517,7 +509,6 @@ void printDisplay()
   setColors(Rval, Bval, Gval);
   enableAllInterrupts();
 }
-
 
 //Change dice polles updates from rotary encoder interrupt updates
 //in setup mode 
