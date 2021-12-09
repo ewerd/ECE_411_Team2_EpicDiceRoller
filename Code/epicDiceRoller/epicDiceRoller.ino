@@ -1,4 +1,4 @@
-/**
+/*
    epicDiceRoller
    by Team 2
    Braden Harwood, Stephen Short, Michael Weston, Drew Seidel
@@ -9,15 +9,15 @@
 #include <RotaryEncoder.h>
 #include <Entropy.h>
 
-#define NUM_POSSIBLE_DICE 9
-#define MAX_NUM_DICE      10
-#define MIN_NUM_DICE      1
+#define NUM_POSSIBLE_DICE 9 //array size for number of dice options. 9 Current options {2, 3, 4, 6, 8, 10, 12, 20, 100}. Changeable
+#define MAX_NUM_DICE      10  // Max number of dice per roll. 
+#define MIN_NUM_DICE      1   //cannot roll 0 dice 
 
-// Define IO Pins
-#define ROTARYPINA        3
-#define ROTARYPINB        2 // May need to switch these if the direction is backwards
-#define LEFTMENU          5
-#define MIDDLEMENU        6
+// Define IO Pins With Descriptive Names
+#define ROTARYPINA        3   
+#define ROTARYPINB        2   
+#define LEFTMENU          5   
+#define MIDDLEMENU        6   
 #define TILTSWITCH        7
 #define LCDSCREENRX       9
 #define ROTARYBTN         A0
@@ -26,34 +26,34 @@
 #define TOGGLEDOWN        A3
 
 // Interrupt Functions
-void encoderUpdate();
-void leftMenuFunc();
-void middleMenuFunc();
-void rightMenuFunc();
-void tiltFunc();
-void toggleUpFunc();
-void toggleDownFunc();
-void encoderUpdate();
-void encoderBtn();
+void leftMenuFunc();                                              //handles presses to left button 
+void middleMenuFunc();                                            //handles presses to middle menu
+void rightMenuFunc();                                             //handles presses to right menu
+void tiltFunc();                                                  //handles tilt detections
+void toggleUpFunc();                                              //handles toggle switch flipped up
+void toggleDownFunc();                                            //handles toggle switch flipped down
+void encoderUpdate();                                             //handles input to rotary encoder
+void encoderBtn();                                                //handles input to rotary encoder button
+
 
 // Run time Functions
-void printDice();
-void printRoll();
-void printRolledDice();
-void printDisplay();
-void changeDice(int pos);
-void changeColor(int pos);
-void custom32Message(char *stringInput, unsigned long delayTime);
-void myDelay(unsigned long delayTime);
-int setCustomChar(int val);
-void critical1();
-void natural20();
-void yahtzee();
-void setColors(int Red, int Green, int Blue);
-void Print(char *string);
-void Write(int val);
-void WriteS(int val);
-void moveCursor(int row, int col);
+void printDice();                                                 //sets up print dice screen. Allows user to see options to increase or decrement number of dice, and the current selection (i.e "3d6")
+void printRoll();                                                 //handles printing the dice roll when a roll is deteced. Allows user to go see dice, home, or redo. 
+void printRolledDice();                                           //prints rolled dice, called if user selects dice from above screen.
+void printDisplay();                                              //prints LDC background change screen to LCD, as well as cursor position for user selection
+void changeDice(int pos);                                         //changes dice size based on rotary positon
+void changeColor(int pos);                                        //changes RGB color levels based on rotary position
+void custom32Message(char *stringInput, unsigned long delayTime); //clears scree, sets cursor at 0,0, prints custom message
+void myDelay(unsigned long delayTime);                            //used millis for better delay handling
+int setCustomChar(int val);                                       //converts inputs to display custom characters 0-6 
+void critical1();                                                 //function to handle extra printing for critical 1 roll
+void natural20();                                                 //function to handle extra printing for natural 20 roll
+void yahtzee();                                                   //function to handle extra printing for yahtzee roll
+void setColors(int Red, int Green, int Blue);                     //set colors uses writeS to change colors based on user input in display mode. Inital values defined below
+void Print(char *string);                                         //Prints string to LCD
+void Write(int val);                                              //writes byte/character to LCD screen
+void WriteS(int val);                                             //writes a setting to LCD screen. Writes "124" (command to put LCD in setting mode), followed by setting value. 
+void moveCursor(int row, int col);                                //moves LCD cursor
 
 // Object definitions for encoder and LCD screen
 RotaryEncoder encoder(ROTARYPINA, ROTARYPINB);
@@ -61,31 +61,33 @@ RotaryEncoder encoder(ROTARYPINA, ROTARYPINB);
 AltSoftSerial OpenLCD(7, LCDSCREENRX); //RX, TX
 
 // Enum to determine what state we are in, used in global interrupts
-typedef enum _device_state_e {SETUP, ROLL, PREVIOUS, DISP} state_t;
+typedef enum _device_state_e {SETUP, ROLL, PREVIOUS, DISP} state_t;  //states of operation
 state_t currentState = SETUP;
 
 // Contrast definition for the LCD Screen
 byte contrast = 1; //Lower is more contrast. 0 to 5 works for most displays.
 
 // Globals
-const int dice[NUM_POSSIBLE_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100};
-int rolledDice[10] = {0};
-int diceIndex = 7;
-int numDice = 1;
-int diceRoll = 0;
-int previousDiceRoll = diceRoll;
-int tiltCount = 0;
-int Rval = 157, Gval = 187, Bval = 217;
-bool rlDice = false;
-bool pntRoll = false;
-bool pntDice = false;
-bool pntDisplay = false;
-bool pntRolledDice = false;
-bool canTilt = false;
-bool canTiltMessage = false;
-bool randomMessage = false;
-bool loaded = false;
-bool R = false, G = false, B = false;
+const int dice[NUM_POSSIBLE_DICE] = {2, 3, 4, 6, 8, 10, 12, 20, 100}; //d2, d3, d6...etc. 
+int rolledDice[10] = {0};                                       //array of rolled dice numbers 
+int diceIndex = 7;                                              //dice index
+int numDice = 1;                                                //initial num dice
+int diceRoll = 0;                                               //random value of dice roll given size of the die
+int previousDiceRoll = diceRoll;                                //keeps track of previous dice roll
+int tiltCount = 0;                                              //counter to make sure enough shaking occurs to trigger a roll, or to set random color display in display mode
+int Rval = 157, Gval = 187, Bval = 217;                         //initial backlight setting
+bool rlDice = false;                                            //detects if roll was iniated. Go to rollDice
+bool pntRoll = false;                                           //determines if printRoll should be called
+bool pntDice = false;                                           //detects if printDice (dice option screen) should be printed to LCD
+bool pntDisplay = false;                                        //determimes if printDisplay should be called
+bool pntRolledDice = false;                                     //determines if user selected "Dice" using left button, from printDice screen.
+bool canTilt = false;                                           //set if user has activated tilt mode with toggle switch
+bool canTiltMessage = false;                                    //if high, print "Shake Mode Activated", set tilt mode interrupt activated
+bool randomMessage = false;                                     //in display state, message will be given if toggle is fliped
+bool loaded = false;                                            //false unless in display mode, then true. 
+bool R = false, G = false, B = false;                           
+
+
 
 void setup() {
 
@@ -120,10 +122,11 @@ void setup() {
   Entropy.initialize();
   WriteS(47); //Send disable messages command
   WriteS(24); //Send contrast command
-  Write(contrast);
+  Write(contrast);  //set initial contrast to 
   WriteS(6);
   WriteS(4);
-  
+
+  //Initial background lighting settings. 
   Rval = 157;
   Gval = 187;
   Bval = 217;
@@ -131,9 +134,10 @@ void setup() {
   // set background
   setColors(Rval, Bval, Gval);
   
-  // Record custom characters
-  WriteS(27);
-  Write(B00000);
+  // Record custom characters: 
+  //Documentation: https://learn.sparkfun.com/tutorials/avr-based-serial-enabled-lcds-hookup-guide/firmware-overview
+  WriteS(27); //character 0
+  Write(B00000);  
   Write(B00000);
   Write(B00000);
   Write(B00000);
@@ -142,7 +146,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  WriteS(28);
+  WriteS(28);   //character 1
   Write(B00000);
   Write(B00000);
   Write(B00000);
@@ -152,7 +156,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  WriteS(29);
+  WriteS(29);   //character 2
   Write(B00000);
   Write(B00000);
   Write(B00000);
@@ -162,7 +166,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  WriteS(30);
+  WriteS(30);   //character 3
   Write(B00000);
   Write(B00000);
   Write(B00000);
@@ -172,7 +176,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  WriteS(31);
+  WriteS(31);   //character 4
   Write(B00000);
   Write(B00000);
   Write(B11111);
@@ -182,7 +186,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  WriteS(32);
+  WriteS(32);  //character 5
   Write(B00000);
   Write(B11111);
   Write(B11111);
@@ -192,7 +196,7 @@ void setup() {
   Write(B11111);
   Write(B00000);
   
-  WriteS(33);
+  WriteS(33);  //character 6
   Write(B11111);
   Write(B11111);
   Write(B11111);
@@ -202,13 +206,13 @@ void setup() {
   Write(B11111);
   Write(B00000);
 
-  delay(3000);
+  delay(3000);  //delay 3 seconds
   
   // Opening Message
   custom32Message("EPIC DICE ROLLER May the rolls  ", 1500);
   custom32Message("EPIC DICE ROLLER be with you!   ", 1500);
   // Initialize Screen
-  printDice();
+  printDice(); //go to main screen where user has option to roll dice, change dice size, and number of dice. 
 }
 
 // In the loop, we just check to see where the interrupt count is at. The value gets updated by
@@ -217,41 +221,49 @@ void setup() {
 // the interrupt routine of the tilt switch.
 void loop() {
   // for some reason fewer errors when nesting functions in interrupt handlers less...
-  if (canTilt)
-    enableInterrupt(TILTSWITCH, tiltFunc, CHANGE);
-  else
-    disableInterrupt(TILTSWITCH);
   
-  if (rlDice)
+  //check tilt
+  if (canTilt)
+    enableInterrupt(TILTSWITCH, tiltFunc, CHANGE); //if can tilt is high, (set if shake mode is actived and printed to LCD). 
+  else
+    disableInterrupt(TILTSWITCH);  //do not detect shake
+  
+  
+  //what action with printing or rolling
+  if (rlDice) 
   {
-    rlDice = false;
-    rollDice();
+    rlDice = false;  //stop roll
+    rollDice();     //handle roll procedure
   }
-  else if (pntDice) 
+  else if (pntDice)  //else, roll was not processed, and user not trying to change screen
   {
     pntDice = false;
-    printDice();
+    printDice();      //Therefore, print screen where user can roll, change die size, number of dice, or go to backlight setup
   }
-  else if (pntRolledDice)
+  else if (pntRolledDice) //if user rolls, and selects dice on print roll screen, go to printRolledDice
   {
     pntRolledDice = false;
-    printRolledDice();
+    printRolledDice();      //prints rolled dice
   }
-  else if (pntRoll) 
+  else if (pntRoll)   //turned on in rollDice procedure (if roll was detected and sucsesfully proccesed).
   {
     pntRoll = false;
-    printRoll();
+    printRoll();    //print, roll procedure. Gives user choice for dice (see dice), home, or redo. 
   }
-  else if (pntDisplay)
+  else if (pntDisplay)    //activated by using switching toggle switch down while in home screen
   {
     pntDisplay = false;
     printDisplay();
   }
+
   
+  //state checks
+  //setup state
   if (currentState == SETUP)
   {
     // Check Rotary Encoder
-    changeDice();
+    changeDice();   //tests for user inputing changes to die size
+    
     if (canTiltMessage)
     {
       custom32Message("  Shaking Mode    Activated!", 750);
@@ -260,11 +272,13 @@ void loop() {
     }
   }
 
+  //previous state
   else if (currentState == PREVIOUS)
   {
-    
+    //do nothing. repeat loop
   }
-  
+
+  //display state
   else if (currentState == DISP)
   {
     changeColor();
@@ -279,7 +293,15 @@ void loop() {
   }
 }
 
+
+
+
+
+
 // Runtime Function Code
+
+//prints "Home Screen" 
+//allow user to change die size, number of dice, roll the dice, go into display mode with toggle switch, or turn on shaking mode with toggle switch. 
 void printDice()
 {
   disableAllInterrupts();
@@ -311,6 +333,8 @@ void printDice()
   enableAllInterrupts();
 }
 
+
+//prints rolled dice. Called if user pressed "DICE" in print roll screen
 void printRolledDice()
 {
   disableAllInterrupts();
@@ -365,6 +389,12 @@ void printRolledDice()
   enableAllInterrupts();
 }
 
+
+//function handles the random number generation for the actual dice roll
+//disables interrupts
+//Takes number of dice, and size, and generates a random number for each die
+//checks for natural 20, critical 1's, and yahteez and if true sends to the corresponding function for a fun extra print
+//if no special condition, sets tilt interrupt detection off, and turns on pnt roll, renables interrupts, return to main loop
 void rollDice()
 {
   disableAllInterrupts();
@@ -410,6 +440,9 @@ void rollDice()
   enableAllInterrupts();
 }
 
+
+//Prints inital roll screen after dice roll iniated. 
+//Allows user to see Dice roll, Go Home (setup screen), or Redo the roll
 void printRoll()
 {
   disableAllInterrupts();
@@ -447,6 +480,9 @@ void printRoll()
   enableAllInterrupts();
 }
 
+
+//Prints the display screen in display mode. 
+//Display mode allows users to change backlight settings
 void printDisplay()
 {
   disableAllInterrupts();
@@ -482,6 +518,10 @@ void printDisplay()
   enableAllInterrupts();
 }
 
+
+//Change dice polles updates from rotary encoder interrupt updates
+//in setup mode 
+//to detect and change the number of dice the user wants to roll
 void changeDice()
 {
   static int dicePos = 0;
@@ -504,6 +544,9 @@ void changeDice()
   }
 }
 
+//Change dice polles updates from rotary encoder interrupt updates
+//in display mode 
+//to detect the color changes the user wants to make
 void changeColor()
 {
   static int colorPos = 0;
@@ -534,6 +577,9 @@ void changeColor()
   }
 }
 
+
+//custom32Message clears the screen, moves the curor home, 
+//then writes new message to screen. calls delay time
 void custom32Message(char *stringInput, unsigned long delayTime)
 {
   int stringLen = strlen(stringInput);
@@ -554,6 +600,8 @@ void custom32Message(char *stringInput, unsigned long delayTime)
   moveCursor(0, 0);
 }
 
+//my delay uses millis for better time delay 
+//functionaltiy 
 void myDelay(unsigned long delayTime)
 {
   unsigned long current = millis();
@@ -562,6 +610,9 @@ void myDelay(unsigned long delayTime)
   }
 }
 
+
+//converts display values for LCD screen
+//to custom characters 0-6 that were made in setup
 int setCustomChar(int val)
 {
   if (val < 5)
@@ -580,6 +631,7 @@ int setCustomChar(int val)
     return 41;
 }
 
+//extra print for natural 20 condtion. Checked for in rollDice. Returns to rollDice.
 void natural20()
 {
   for (int x = 0; x < 3; x++)
@@ -593,6 +645,7 @@ void natural20()
   setColors(Rval, Bval, Gval);
 }
 
+//extra print for critcal 1 condition. Checked for in rollDice. Returns to rollDice. 
 void critical1()
 {
   for (int x = 0; x < 3; x++) 
@@ -606,6 +659,7 @@ void critical1()
   setColors(Rval, Bval, Gval);
 }
 
+//extra print for yahtzee. Check for in rollDice. Returns to rollDice. 
 void yahtzee()
 {
   for (int x = 0; x < 3; x++) 
@@ -619,6 +673,8 @@ void yahtzee()
   setColors(Rval, Bval, Gval);
 }
 
+
+//set color values 
 void setColors(int Red, int Green, int Blue)
 {
   WriteS(Red);
@@ -656,13 +712,17 @@ void WriteS(int val)
   OpenLCD.write(val);
 }
 
+//moves cursor to row and column
 void moveCursor(int row, int col)
 {
   Write(254);
   Write(128 + (row*64) + col);
 }
 
+
 // Interrupt Function Code
+
+//detects changes to left button, updates booleans given the state of operation.Changes state for rolling
 void leftMenuFunc() {
   int buttonState = digitalRead(LEFTMENU);
   
@@ -681,7 +741,7 @@ void leftMenuFunc() {
       currentState = PREVIOUS;
       pntRolledDice = true;
     }
-    else if (currentState == DISP)
+    else if (currentState == DISP)  
     {
       R = true;
       G = false;
@@ -690,6 +750,8 @@ void leftMenuFunc() {
   }
 }
 
+
+//detects changes to middle button, updates booleans given state of operation.Changes state for rolling
 void middleMenuFunc() {
   int buttonState = digitalRead(MIDDLEMENU);
   
@@ -714,6 +776,7 @@ void middleMenuFunc() {
   }
 }
 
+//detects changes to right button, updates booleans given state of operation. Changes state if necessary
 void rightMenuFunc() {
   int buttonState = digitalRead(RIGHTMENU);
     
@@ -745,6 +808,8 @@ void rightMenuFunc() {
   }
 }
 
+
+//detects changes to toggle switch switched up, updates booleans given state of operation. Changes state
 void toggleUpFunc() {
   int switchState = digitalRead(TOGGLEUP);
   if (currentState == SETUP && switchState == LOW)
@@ -761,6 +826,7 @@ void toggleUpFunc() {
   }
 }
 
+//detects changes to toggle switch swithced down, updates booleans given state of operation. Changes state
 void toggleDownFunc() {
   int switchState = digitalRead(TOGGLEDOWN);
   if (currentState == SETUP && switchState == LOW)
@@ -776,6 +842,9 @@ void toggleDownFunc() {
   }
 }
 
+//detects changes to toggle switch, and keeps track of interrupt count to avoid mayhem.
+//If in Display mode, and tilt count is 400, set random color scheme
+//If in setup mode, and tilt count is greater than 1000, roll the dice. 
 void tiltFunc() {
   if (canTilt)
   {
@@ -792,7 +861,7 @@ void tiltFunc() {
         tiltCount = 0;
       }
     }
-    else if (currentState == SETUP)
+    else if (currentState == SETUP) 
     {
       if (tiltCount % 150 == 0)
       {
@@ -811,10 +880,12 @@ void tiltFunc() {
   }
 }
 
+// encoder update calls state to check state of encoder
 void encoderUpdate() {
   encoder.tick(); // just call tick() to check the state.
 }
 
+//detects changes to encoder button, updates booleans given state of operation. Changes state if necessary
 void encoderBtn()
 {
   int buttonState = digitalRead(ROTARYBTN);
@@ -835,8 +906,11 @@ void encoderBtn()
   }
 }
 
+
+ //function disables all interrupt
 void disableAllInterrupts()
 {
+
   disableInterrupt(LEFTMENU);
   disableInterrupt(MIDDLEMENU);
   disableInterrupt(RIGHTMENU);
@@ -848,9 +922,11 @@ void disableAllInterrupts()
   disableInterrupt(ROTARYBTN);
 }
 
+
+// Enable the interrupts for the initial state
 void enableAllInterrupts()
 {
-  // Enable the interrupts for the initial state
+  
   enableInterrupt(ROTARYPINA, encoderUpdate, CHANGE);
   enableInterrupt(ROTARYPINB, encoderUpdate, CHANGE);
   enableInterrupt(ROTARYBTN, encoderBtn, CHANGE);
